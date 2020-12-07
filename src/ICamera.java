@@ -5,9 +5,11 @@ public interface ICamera {
     BufferedImage Read();
     void Grab();
     BufferedImage Get();
+    void Set(BufferedImage bi);
     int GetXResolution();
     int GetYResolution();
     void SetResolution(int Width,int Height);
     void Close();
+
 
 }

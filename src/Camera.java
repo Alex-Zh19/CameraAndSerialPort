@@ -5,22 +5,20 @@ import org.opencv.videoio.VideoCapture;
 
 import javax.imageio.ImageIO;
 
-
 import java.awt.image.BufferedImage;
 
 import java.io.ByteArrayInputStream;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
 
 import static org.opencv.videoio.Videoio.CAP_PROP_FRAME_HEIGHT;
 import static org.opencv.videoio.Videoio.CAP_PROP_FRAME_WIDTH;
 
 
 public class Camera implements ICamera{
-   private  final int Width=960;
-    private  final int Height=576;
+   private  final int DefaultWidth=960;
+    private  final int DefaultHeight=576;
 
     private Mat tmpFrame_=new Mat();
 
@@ -28,13 +26,9 @@ public class Camera implements ICamera{
 
     private int CameraID;
 
-    private VideoCapture camera;
+    private VideoCapture camera=null;
 
-    int[]AllCamID;
 
-    private int SaveCamID=0;
-
-    private boolean ResolutionMark=false;
 
     Camera(){
         CameraID=0;
@@ -46,9 +40,7 @@ public class Camera implements ICamera{
 
     @Override
     public void Open() {
-        CountUSB_And_AnalyzedCameraID();
         camera=new VideoCapture(CameraID);
-        SetResolution(Width,Height);
     }
 
     @Override
@@ -76,6 +68,11 @@ public class Camera implements ICamera{
     }
 
     @Override
+    public void Set(BufferedImage bi) {
+        VideoIm=bi;
+    }
+
+    @Override
     public int GetXResolution() {
         int Width=(int)Math.round(camera.get(CAP_PROP_FRAME_WIDTH));
         return Width;
@@ -84,19 +81,19 @@ public class Camera implements ICamera{
     @Override
     public int GetYResolution() {
         int Height=(int)Math.round(camera.get(CAP_PROP_FRAME_HEIGHT));
-
         return Height;
     }
 
     @Override
     public void SetResolution(int Width,int Height) {
         if(Width==0&&Height==0){
-            Width=960;
-            Height=576;
+            Width=DefaultWidth;
+            Height=DefaultHeight;
         }
-        camera.set(CAP_PROP_FRAME_WIDTH,Width);
+       camera.set(CAP_PROP_FRAME_WIDTH,Width);
         camera.set(CAP_PROP_FRAME_HEIGHT,Height);
     }
+
 
     @Override
     public void Close() {
@@ -104,31 +101,19 @@ public class Camera implements ICamera{
         tmpFrame_.release();
     }
 
-Runnable CountCam=new Runnable() {
-    @Override
-    public void run() {
-        int MaxCount=10;
-        int [] buff=new int[MaxCount];
-        int h=0;
-        for(int i=0;i<MaxCount;++i){
-            VideoCapture buffCam=new VideoCapture(i);
-            if(buffCam.isOpened()){
-                buff[h]=i;
-                ++h;
+
+
+    public static ArrayList<Integer> CountUSB_And_AnalyzedCameraID() {
+        ArrayList<Integer>listOfCameras=new ArrayList<>();
+        int MaxCount = 10;
+        for (int i = 0; i < MaxCount; ++i) {
+            VideoCapture buffCam = new VideoCapture(i);
+            if (buffCam.isOpened()) {
+                listOfCameras.add(i);
                 buffCam.release();
             }
         }
-        AllCamID=new int[h-1];
-        for(int i=0;i<h-1;++i){
-            AllCamID[i]=buff[i];
-        }
-    }
-};
-
-
-    public void CountUSB_And_AnalyzedCameraID(){
-        ExecutorService sched= Executors.newCachedThreadPool();
-        sched.submit(CountCam);
+        return listOfCameras;
     }
 
 

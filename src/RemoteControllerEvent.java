@@ -32,25 +32,25 @@ public class RemoteControllerEvent {
     }
 
 
-    private boolean isButton1Pressed(){
+    public boolean isButton1Pressed(){
        return isButton1Pressed;
     }
-    private boolean isButton2Pressed(){
+    public boolean isButton2Pressed(){
        return isButton2Pressed;
     }
-    private boolean isButton3Pressed(){
+    public boolean isButton3Pressed(){
         return isButton3Pressed;
     }
-    private boolean isButton4Pressed(){
+    public boolean isButton4Pressed(){
         return isButton4Pressed;
     }
-    private boolean isButton5Pressed(){
+    public boolean isButton5Pressed(){
         return isButton5Pressed;
     }
-    private boolean isButton6Pressed(){
+    public boolean isButton6Pressed(){
         return isButton6Pressed;
     }
-    private boolean isButton7Pressed(){
+    public boolean isButton7Pressed(){
         return isButton7Pressed;
     }
 

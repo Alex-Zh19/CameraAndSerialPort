@@ -78,6 +78,8 @@ public class GUI extends JFrame implements ICameraListener {
     JComboBox comsIDCombo;
     RemoteController deviceCom;
 
+
+
     CompletableFuture<String[]> CountSerialPortsAsync =CompletableFuture.supplyAsync(() -> {
         comsID=RemoteController.GetSerialPorts();
         return RemoteController.GetSerialPorts();
@@ -334,6 +336,49 @@ public class GUI extends JFrame implements ICameraListener {
     }
 
 
+    class ByteAccepted implements IRemoteControllerListener{
+        @Override
+        public void DeviceEvent(RemoteControllerEvent e) {
+            if(e.isButton1Pressed()){
+                //do smth
+
+
+                e.SetBut1(false);
+            }
+            else if(e.isButton2Pressed()){
+                //do smth
+
+                e.SetBut2(false);
+            }
+            else if(e.isButton3Pressed()){
+                //do smth
+
+                e.SetBut3(false);
+            }
+            else if(e.isButton4Pressed()){
+                //do smth
+
+                e.SetBut4(false);
+            }
+            else if(e.isButton5Pressed()){
+                //do smth
+
+                e.SetBut5(false);
+            }
+            else if(e.isButton6Pressed()){
+                //do smth
+
+                e.SetBut6(false);
+            }
+            else if(e.isButton7Pressed()){
+                //do smth
+
+                e.SetBut7(false);
+            }
+        }
+    }
+
+
 
     private void SetUf(){
 
@@ -358,8 +403,6 @@ public class GUI extends JFrame implements ICameraListener {
     private BufferedImage StretchOutImage(BufferedImage bi){
         int x=video.getWidth();
         int y=video.getHeight();
-      //System.out.println("X: "+x+" Y: "+y);
-        //System.out.println("pld Width: "+bi.getWidth()+" old Height: "+bi.getHeight());
         double k=(double)bi.getWidth()/bi.getHeight();
         int newWidth,newHeight;
         if(x>y){
@@ -380,7 +423,6 @@ public class GUI extends JFrame implements ICameraListener {
         BufferedImage dstImage = new BufferedImage(newWidth , newHeight , BufferedImage.TYPE_INT_RGB);
         dstImage.getGraphics().drawImage(bi.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH),
                 0, 0, null);
-       // System.out.println("new Width: "+dstImage.getWidth()+" new Height: "+dstImage.getHeight());
 
         return dstImage;
     }
@@ -590,6 +632,7 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
                 isOpen=false;
                 deviceCom=new RemoteController();
                if(deviceCom.Open(ComId)){
+                   deviceCom.SetDeviceItemListener(new ByteAccepted());
                    Camera camera= new Camera(cameraID);
                    recorder.SetCamera(camera);
                    recorder.OpenCam();

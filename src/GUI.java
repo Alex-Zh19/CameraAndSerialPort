@@ -17,18 +17,20 @@ import java.util.concurrent.CompletableFuture;
 
 
 
-public class GUI extends JFrame implements ICameraListener {
+public class GUI extends JFrame implements ICameraListener,IRemoteControllerListener {
     private JMenu settingsmenu=new JMenu("Settings");
     private JMenuBar Menu=new JMenuBar();
 
     private JButton PauseButton=new JButton("Pause");
     private JButton CloseButton=new JButton("Close");
     private JButton ConnectButton=new JButton("Connect");
+    private JButton resetButton=new JButton("Reset");
 
     private JLabel video=new JLabel();
     private JLabel FpsLabel=new JLabel("50");
     private JLabel CountOfPixelsLabel=new JLabel("0.0");
     private JLabel resolutionLabel=new JLabel("640х480");
+    private JLabel ModeLabel=new JLabel("Mode");
 
 
     private JSlider BrightnessSlider=new JSlider();
@@ -63,7 +65,7 @@ public class GUI extends JFrame implements ICameraListener {
     private int HeightResol=480;
 
     private boolean ScheduleIsRunning=false;
-    private boolean isResolutionChanged=false;
+    private boolean isOnPause=false;
     private boolean isOpen=false;
 
     private   double CountOfPixels=0.0;
@@ -130,8 +132,12 @@ public class GUI extends JFrame implements ICameraListener {
         ButtonBox.add(PauseButton);
         PauseButton.setEnabled(false);
         ButtonBox.add(Box.createHorizontalStrut(15));
+        ButtonBox.add(resetButton);
+        resetButton.setEnabled(false);
+        ButtonBox.add(Box.createHorizontalStrut(15));
         ButtonBox.add(CloseButton);
         ButtonBox.add(Box.createHorizontalStrut(15));
+
 
 
         ButtonBox.add(Box.createHorizontalStrut(15));
@@ -149,8 +155,8 @@ public class GUI extends JFrame implements ICameraListener {
         HSLSliderBox.add(BrightnessSlider);
         BrightnessSlider.setMajorTickSpacing(10);
         BrightnessSlider.setMinorTickSpacing(5);
-        BrightnessSlider.setMinimum(-50);
-        BrightnessSlider.setMaximum(50);
+        BrightnessSlider.setMinimum(-20);
+        BrightnessSlider.setMaximum(80);
         BrightnessSlider.setValue(0);
         BrightnessSlider.setPaintTicks(true);
         BrightnessSlider.setPaintLabels(true);
@@ -162,8 +168,8 @@ public class GUI extends JFrame implements ICameraListener {
         HSLSliderBox.add(ContrastSlider);
         ContrastSlider.setMajorTickSpacing(10);
         ContrastSlider.setMinorTickSpacing(5);
-        ContrastSlider.setMinimum(-50);
-        ContrastSlider.setMaximum(50);
+        ContrastSlider.setMinimum(-10);
+        ContrastSlider.setMaximum(90);
         ContrastSlider.setValue(0);
         ContrastSlider.setPaintTicks(true);
         ContrastSlider.setPaintLabels(true);
@@ -175,8 +181,8 @@ public class GUI extends JFrame implements ICameraListener {
         HSLSliderBox.add(SaturationSlider);
         SaturationSlider.setMajorTickSpacing(10);
         SaturationSlider.setMinorTickSpacing(5);
-        SaturationSlider.setMinimum(-50);
-        SaturationSlider.setMaximum(50);
+        SaturationSlider.setMinimum(-20);
+        SaturationSlider.setMaximum(80);
         SaturationSlider.setValue(0);
         SaturationSlider.setPaintTicks(true);
         SaturationSlider.setPaintLabels(true);
@@ -188,8 +194,8 @@ public class GUI extends JFrame implements ICameraListener {
         HSLSliderBox.add(WhiteFilterSlider);
         WhiteFilterSlider.setMajorTickSpacing(10);
         WhiteFilterSlider.setMinorTickSpacing(5);
-        WhiteFilterSlider.setMinimum(-50);
-        WhiteFilterSlider.setMaximum(50);
+        WhiteFilterSlider.setMinimum(-20);
+        WhiteFilterSlider.setMaximum(80);
         WhiteFilterSlider.setValue(0);
         WhiteFilterSlider.setPaintTicks(true);
         WhiteFilterSlider.setPaintLabels(true);
@@ -262,6 +268,11 @@ public class GUI extends JFrame implements ICameraListener {
         resolutionLabelBox.add(resolutionLabel);
         InfoBox.add(resolutionLabelBox);
 
+        Box ModeLabelBox=Box.createVerticalBox();
+        ModeLabelBox.add(new JLabel("Mode"));
+        ModeLabelBox.add(Box.createVerticalStrut(5));
+        ModeLabelBox.add(ModeLabel);
+        InfoBox.add(ModeLabelBox);
 
         Box SettingsBox=Box.createVerticalBox();
         SettingsBox.add(Box.createVerticalStrut(10));
@@ -293,6 +304,8 @@ public class GUI extends JFrame implements ICameraListener {
         addMouseWheelListener(new MouseWheelListener());
         addMouseListener(new MouseButtonsListener());
         FPSSlider.addChangeListener(new FPSSliderListener());
+        addKeyListener(new Pausebykeyboard());
+        resetButton.addActionListener(new ResetButtonListener());
         //
 
         JMenuBar menu = new JMenuBar();
@@ -335,62 +348,59 @@ public class GUI extends JFrame implements ICameraListener {
         saveImage=bi;
     }
 
+    @Override
+    public void DeviceEvent(RemoteControllerEvent e) {
+        if(e.isButton1Pressed()){
+            RollUp();
 
-    class ByteAccepted implements IRemoteControllerListener{
-        @Override
-        public void DeviceEvent(RemoteControllerEvent e) {
-            if(e.isButton1Pressed()){
-                //do smth
+            e.SetBut1(false);
+        }
+        else if(e.isButton2Pressed()){
+            //do smth
+              SetUf();
+            e.SetBut2(false);
+        }
+        else if(e.isButton3Pressed()){
+            //do smth
 
+            e.SetBut3(false);
+        }
+        else if(e.isButton4Pressed()){
+            //do smth
 
-                e.SetBut1(false);
-            }
-            else if(e.isButton2Pressed()){
-                //do smth
+            e.SetBut4(false);
+        }
+        else if(e.isButton5Pressed()){
+            //do smth
 
-                e.SetBut2(false);
-            }
-            else if(e.isButton3Pressed()){
-                //do smth
+            e.SetBut5(false);
+        }
+        else if(e.isButton6Pressed()){
+            //do smth
 
-                e.SetBut3(false);
-            }
-            else if(e.isButton4Pressed()){
-                //do smth
+            e.SetBut6(false);
+        }
+        else if(e.isButton7Pressed()){
+            //do smth
 
-                e.SetBut4(false);
-            }
-            else if(e.isButton5Pressed()){
-                //do smth
-
-                e.SetBut5(false);
-            }
-            else if(e.isButton6Pressed()){
-                //do smth
-
-                e.SetBut6(false);
-            }
-            else if(e.isButton7Pressed()){
-                //do smth
-
-                e.SetBut7(false);
-            }
+            e.SetBut7(false);
         }
     }
 
-
+    
 
     private void SetUf(){
-
+        System.out.println("UF");
+        ModeLabel.setText("Uf");
     }
     private void SetBlackAndWhite(){
-
+        System.out.println("White And Black");
     }
     private void SetIR(){
-
+        System.out.println("IR");
     }
     private void RollUp(){
-
+        setState(JFrame.ICONIFIED);
     }
 
 
@@ -428,10 +438,13 @@ public class GUI extends JFrame implements ICameraListener {
     }
 
 
+
     Action openAction=new AbstractAction("Open") {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+            if(!isOnPause){
             PauseButton.doClick();
+            }
             JFileChooser fileChooser=new JFileChooser();
             fileChooser.setDialogTitle("Opening");
             fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -450,6 +463,7 @@ public class GUI extends JFrame implements ICameraListener {
     private void OpenFile(File selectedFile) {
         try {
              isOpen=true;
+             FPSSlider.setEnabled(false);
              PauseButton.setText("Pause");
              PauseButton.setEnabled(false);
              ConnectButton.setEnabled(true);
@@ -487,8 +501,7 @@ public class GUI extends JFrame implements ICameraListener {
                 SaveToFile(folder);
             }
             else{
-                JOptionPane.showMessageDialog(GUI.this, "Save error");
-                System.exit(-4);
+                JOptionPane.showMessageDialog(GUI.this, "Save Canceled");
             }
         }
     };
@@ -502,7 +515,7 @@ public class GUI extends JFrame implements ICameraListener {
             ImageIO.write(saveImage, "png",new File(selectedDir,name));
         } catch (IOException exception) {
             JOptionPane.showMessageDialog(GUI.this, "Save error");
-            System.exit(-3);
+
         }
     }
 
@@ -519,7 +532,7 @@ public class GUI extends JFrame implements ICameraListener {
         public void actionPerformed(ActionEvent actionEvent) {
             Box fpsBox = Box.createVerticalBox();
             JLabel input = new JLabel("Enter FPS");
-            Integer fps=recorder.GetFPS();
+            Integer fps=Integer.parseInt(FpsLabel.getText());
             String Stringfps=fps.toString();
             JTextField inputFPS = new JTextField(Stringfps, 15);
             fpsBox.add(input);
@@ -530,7 +543,7 @@ public class GUI extends JFrame implements ICameraListener {
                     fpsBox, "" +
                             "FPS", JOptionPane.QUESTION_MESSAGE);
             Integer Val= Integer.parseInt(inputFPS.getText());
-            if(Val<=0){
+            if(Val<=0||Val>100){
                 JOptionPane.showMessageDialog(GUI.this, "Wrong Fps");
                 Val=50;
             }
@@ -540,11 +553,13 @@ public class GUI extends JFrame implements ICameraListener {
             if(ScheduleIsRunning){
                 recorder.Stop();
                 int value=Val;
-                recorder.SetFPS(value);
+                int realVal=(int)Math.round(1000/value);
+                recorder.SetFPS(realVal);
                 recorder.Start();
             }else{
                 int value=Val;
-                recorder.SetFPS(value);
+                int realVal=(int)Math.round(1000/value);
+                recorder.SetFPS(realVal);
             }
 
         }
@@ -565,9 +580,6 @@ public class GUI extends JFrame implements ICameraListener {
             JOptionPane.showMessageDialog(GUI.this,
                     resolBox, "" +
                             "Resolution", JOptionPane.QUESTION_MESSAGE);
-
-
-
         }
     };
 
@@ -583,10 +595,12 @@ public class GUI extends JFrame implements ICameraListener {
     class PauseButtonListener implements ActionListener{
         public void actionPerformed (ActionEvent ev){
             if(PauseButton.getText().equals("Pause")){
+                isOnPause=true;
                 recorder.SetIsOnPause(true);
                 PauseButton.setText("Continue");
             }
             else {
+                isOnPause=false;
                 PauseButton.setText("Pause");
                 recorder.SetIsOnPause(false);
 
@@ -632,7 +646,8 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
                 isOpen=false;
                 deviceCom=new RemoteController();
                if(deviceCom.Open(ComId)){
-                   deviceCom.SetDeviceItemListener(new ByteAccepted());
+                   FPSSlider.setEnabled(true);
+                   deviceCom.SetDeviceItemListener(GUI.this::DeviceEvent);
                    Camera camera= new Camera(cameraID);
                    recorder.SetCamera(camera);
                    recorder.OpenCam();
@@ -643,6 +658,7 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
                    ScheduleIsRunning=true;
                    saveMenuItem.setEnabled(true);
                    PauseButton.setEnabled(true);
+                   resetButton.setEnabled(true);
                    ConnectButton.setEnabled(false);
                }else{
                    JOptionPane.showMessageDialog(GUI.this, "Can't Open "+ComId);
@@ -732,7 +748,7 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
                     editHSL.SetContrastFactor(1.0f);
                 }
                 else {
-                    buff = (float) value / 25;
+                    buff = (float) value / 50;
                     editHSL.SetContrastFactor(1.0f+buff);
 
                 }
@@ -750,7 +766,7 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
                     editHSL.SetSaturationFactor(1.0f);
                 }
                 else {
-                    buff = (float) value / 25;
+                    buff = (float) value / 35;
                     editHSL.SetSaturationFactor(1.0f+buff);
                 }
             }
@@ -828,27 +844,36 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
     class MouseButtonsListener implements MouseListener{
         double x=0;
         double y=0;
+        boolean startonframe=false;
         @Override
         public void mousePressed(MouseEvent mouseEvent) {
             this.x=mouseEvent.getX();
             this.y=mouseEvent.getY();
-            if(isInFrame(x,y)) {
-               if(PauseButton.getText().equals("Pause")){
-                   PauseButton.doClick();
-               }
+            if(!isOnPause){
+                if(isInFrame(x,y)) {
+                    PauseButton.doClick();
+                    isOnPause=false;
+                }
+            }
+            if(isInFrame(x,y)){
+                startonframe=true;
             }
         }
 
         @Override
         public void mouseReleased(MouseEvent mouseEvent) {
-            double x1=mouseEvent.getX();
-            double y1=mouseEvent.getY();
-            if(isInFrame(x1,y1)){
-            CountOfPixels=Math.sqrt((Math.abs(x1-this.x)*Math.abs(x1-this.x))+(Math.abs(y1-this.y)*Math.abs(y1-this.y)));
-            ShowCountOfPixels();
-            PauseButton.doClick();
+            if(startonframe) {
+                double x1 = mouseEvent.getX();
+                double y1 = mouseEvent.getY();
+                if (isInFrame(x1, y1)) {
+                    CountOfPixels = Math.sqrt((Math.abs(x1 - this.x) * Math.abs(x1 - this.x)) + (Math.abs(y1 - this.y) * Math.abs(y1 - this.y)));
+                    ShowCountOfPixels();
+                }
+                if (!isOnPause) {
+                    PauseButton.doClick();
+                }
             }
-
+            startonframe=false;
         }
 
         @Override
@@ -891,11 +916,17 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
                     Double Height = Double.parseDouble(str1);
                     WidthResol=(int)Math.round(Width);
                     HeightResol=(int)Math.round(Height);
+                    if(isOnPause){
+                        PauseButton.doClick();
+                    }
+                    recorder.Stop();
+                    deviceCom.Close();
+                    FPSSlider.setEnabled(false);
+                    resetButton.setEnabled(false);
                     PauseButton.setEnabled(false);
                     saveMenuItem.setEnabled(false);
                     ConnectButton.setEnabled(true);
-                    recorder.Stop();
-                    deviceCom.Close();
+
                 }
 
             }
@@ -949,7 +980,8 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
                 if(ScheduleIsRunning){
                     recorder.Stop();
                 }
-                recorder.SetFPS(value);
+                int realVal=(int)Math.round(1000/value);
+                recorder.SetFPS(realVal);
                 recorder.Start();
             }
         }
@@ -1011,6 +1043,19 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
                 }
             }
         }
+    }
+    class ResetButtonListener implements ActionListener{
+        public void actionPerformed(ActionEvent event) {
+        RColorSlider.setValue(0);
+        GColorSlider.setValue(0);
+        BColorSlider.setValue(0);
+        SaturationSlider.setValue(0);
+        ContrastSlider.setValue(0);
+        BrightnessSlider.setValue(0);
+        WhiteFilterSlider.setValue(0);
+        CountOfPixelsLabel.setText("0.0");
+        }
+
     }
 
 

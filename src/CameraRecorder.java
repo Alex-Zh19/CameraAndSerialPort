@@ -7,7 +7,7 @@ public class CameraRecorder {
     ICameraListener listener;
     private ICamera superCamera;
     private ScheduledExecutorService schedule=null;
-    private final int  defaultFPS=50;
+    private final int  defaultFPS=20;
     private int FPS=defaultFPS;
     private boolean isOnPause=false;
     private boolean isOpen=false;
@@ -58,7 +58,7 @@ public class CameraRecorder {
         if(!isOpen){
         schedule.scheduleAtFixedRate(MainCycle,0,FPS, TimeUnit.MILLISECONDS);}
         else{
-            schedule.scheduleAtFixedRate(OpenCycle,0,50, TimeUnit.MILLISECONDS);
+            schedule.scheduleAtFixedRate(OpenCycle,0,defaultFPS, TimeUnit.MILLISECONDS);
             isOpen=false;
         }
     }

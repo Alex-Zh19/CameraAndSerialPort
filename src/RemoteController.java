@@ -1,7 +1,6 @@
 import jssc.*;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 public class RemoteController {
@@ -80,97 +79,96 @@ public class RemoteController {
         RemoteControllerEvent event=new RemoteControllerEvent();
         int value=val;
         int range=rang;
+        event.SetBrightness(value);
         switch (isMode){
             case isWhiteTop:{
                 event.SetMode(Mode.WhiteTop);
-                event.SetBrightness(value);
+
                 break;
             }
             case isWhiteOblique1:{
                 event.SetMode(Mode.WhiteOblique1);
-                event.SetBrightness(value);
+
                 break;
             }
             case isWhiteOblique2:{
                 event.SetMode(Mode.WhiteOblique2);
-                event.SetBrightness(value);
+
                 break;
             }
             case isWhiteOblique3:{
                 event.SetMode(Mode.WhiteOblique3);
-                event.SetBrightness(value);
+
                 break;
             }
             case isWhiteOblique4:{
                 event.SetMode(Mode.WhiteOblique4);
-                event.SetBrightness(value);
+
                 break;
             }
             case isUF365:{
                 event.SetMode(Mode.UF365);
-                event.SetBrightness(value);
+
                 break;
             }
             case isAntiStocks980:{//7
                 event.SetMode(Mode.AntiStocks980);
-                event.SetBrightness(value);
+
                 break;
             }
             case isIRTop830:{//8
                  event.SetMode(Mode.IRTop830);
-                event.SetBrightness(value);
+
                 break;
             }
             case isIRTop950:{//9
                 event.SetMode(Mode.IRTop950);
-                event.SetBrightness(value);
+
                 break;
             }
             case isIROblique830_1:{//10
                 event.SetMode(Mode.IROblique830_1);
-                event.SetBrightness(value);
+
                 break;
             }
             case isIROblique830_2:{//11
                 event.SetMode(Mode.IROblique830_2);
-                event.SetBrightness(value);
+
                 break;
             }
             case isIROblique830_3:{//12
                 event.SetMode(Mode.IROblique830_3);
-                event.SetBrightness(value);
+
                 break;
             }
             case isIROblique830_4:{//13
                 event.SetMode(Mode.IROblique830_4);
-                event.SetBrightness(value);
+
                 break;
             }
             case isIRLum505:{//14
                 event.SetMode(Mode.IRLum505);
-                event.SetBrightness(value);
+
                 break;
             }
             case isM_Mark:{//15
                 event.SetMode(Mode.M_Mark);
-                event.SetBrightness(value);
+
                 break;
             }
             case isIRCircular830:{//16
                 event.SetMode(Mode.IRCircular830);
-                event.SetBrightness(value);
                 event.SetRange(range);
                 break;
             }
             case isWhiteCircular:{//17
                 event.SetMode(Mode.WhiteCircular);
-                event.SetBrightness(value);
                 event.SetRange(range);
                 break;
             }
             case isZoom:{//18
                 event.SetMode(Mode.Zoom);
-                event.SetBrightness(value);
+
                 break;
             }
             case isStop:{//19
@@ -192,20 +190,19 @@ public class RemoteController {
          public void serialEvent(SerialPortEvent PortEvent) {
              if(PortEvent.isRXCHAR()&&PortEvent.getEventValue()>0){
                  try {
+
                      byte[]data=serialPort.readBytes();
-                     byte[]packData=new byte[3];
                      int h=0;
                      for(byte i:data){
                          infoSaver.offer(i);
                      }
+                     System.out.println(infoSaver.size());
                      while(infoSaver.size()>=3){
-                         packData[h]=infoSaver.poll();
-                         h++;
-                         if(h==3){
-                             //System.out.println(packData[0]+" "+packData[1]+" "+packData[2]);
-                             listener.DeviceEvent(CreateDeviceEvent(packData[0],packData[1],packData[2]));
-                             h=0;
+                         byte[]packData=new byte[3];
+                         for (int i = 0; i < infoSaver.size(); ++i) {
+                             packData[i] = infoSaver.poll();
                          }
+                         listener.DeviceEvent(CreateDeviceEvent(packData[0],packData[1],packData[2]));
                      }
                  }catch (SerialPortException e){
                      System.out.println(e);

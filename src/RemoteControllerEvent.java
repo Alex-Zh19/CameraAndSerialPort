@@ -20,15 +20,11 @@ enum Mode {
     Stop,
     Sleep,//20
 }
-enum Range{
-    NONE,
-    RANGE_16,
-    RANGE_17
-}
 public class RemoteControllerEvent {
     Mode mode;
     private int brightness;
-    Range range;
+    private int range;
+
 
 
 
@@ -38,7 +34,7 @@ public class RemoteControllerEvent {
 
     public void SetBrightness(int Val){brightness=Val;}
 
-    public void SetRange(Range r){
+    public void SetRange(int r){
         range=r;
     }//for 16,17
 
@@ -48,5 +44,5 @@ public class RemoteControllerEvent {
 
     public int GetBrightness(){return brightness;}
 
-    public Range GetRange(){return range;}//for 16,17
+    public int GetRange(){return range;}//for 16,17
 }

@@ -1,23 +1,23 @@
 enum Mode {
     isWhiteTop, //1
-    isWhiteOblique1,//2
-    isWhiteOblique2,//3
-    isWhiteOblique3,//4
+    isWhiteOblique1,
+    isWhiteOblique2,
+    isWhiteOblique3,
     isWhiteOblique4,//5
-    isUF365,//6
-    isAntiStocks980,//7
-    isIRTop830,//8
-    isIRTop950,//9
+    isUF365,
+    isAntiStocks980,
+    isIRTop830,
+    isIRTop950,
     isIROblique830_1,//10
-    isIROblique830_2,//11
-    isIROblique830_3,//12
-    isIROblique830_4,//13
-    isIRLum505,//14
+    isIROblique830_2,
+    isIROblique830_3,
+    isIROblique830_4,
+    isIRLum505,
     isM_Mark,//15
-    isIRCircular830,//16
-    isWhiteCircular,//17
-    isZoom,//18
-    isStop,//19
+    isIRCircular830,
+    isWhiteCircular,
+    isZoom,
+    isStop,
     isSleep//20
 }
 public class RemoteControllerEvent {

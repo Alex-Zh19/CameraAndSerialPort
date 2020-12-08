@@ -1,25 +1,26 @@
-enum Mode {
-    isWhiteTop, //1
-    isWhiteOblique1,
-    isWhiteOblique2,
-    isWhiteOblique3,
-    isWhiteOblique4,//5
-    isUF365,
-    isAntiStocks980,
-    isIRTop830,
-    isIRTop950,
-    isIROblique830_1,//10
-    isIROblique830_2,
-    isIROblique830_3,
-    isIROblique830_4,
-    isIRLum505,
-    isM_Mark,//15
-    isIRCircular830,
-    isWhiteCircular,
-    isZoom,
-    isStop,
-    isSleep,//20
+import java.util.Random;
 
+enum Mode {
+    WhiteTop, //1
+    WhiteOblique1,
+    WhiteOblique2,
+    WhiteOblique3,
+    WhiteOblique4,//5
+    UF365,
+    AntiStocks980,
+    IRTop830,
+    IRTop950,
+    IROblique830_1,//10
+    IROblique830_2,
+    IROblique830_3,
+    IROblique830_4,
+    IRLum505,
+    M_Mark,//15
+    IRCircular830,
+    WhiteCircular,
+    Zoom,
+    Stop,
+    Sleep,//20
 }
 enum Range{
     NONE,
@@ -29,7 +30,7 @@ enum Range{
 public class RemoteControllerEvent {
     Mode mode;
     private int brightness;
-
+    Range range;
 
 
 
@@ -45,7 +46,7 @@ public class RemoteControllerEvent {
     public boolean GetMode(){
        return isWhiteTop;
     }
-    
+
     public int GetBrightness(){return brightness;}
 
     public int GetRange(){return range;}//for 16,17

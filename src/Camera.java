@@ -12,8 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.opencv.videoio.Videoio.CAP_PROP_FRAME_HEIGHT;
-import static org.opencv.videoio.Videoio.CAP_PROP_FRAME_WIDTH;
+import static org.opencv.videoio.Videoio.*;
 
 
 public class Camera implements ICamera{
@@ -24,6 +23,7 @@ public class Camera implements ICamera{
 
     private BufferedImage VideoIm=null;
 
+
     private int CameraID;
 
     private VideoCapture camera=null;
@@ -31,7 +31,7 @@ public class Camera implements ICamera{
 
 
     Camera(){
-        CameraID=0;
+        CameraID=1;
     }
     Camera(int CamID){
         CameraID=CamID;
@@ -41,6 +41,8 @@ public class Camera implements ICamera{
     @Override
     public void Open() {
         camera=new VideoCapture(CameraID);
+        camera.set(CAP_PROP_AUTO_EXPOSURE, 0);
+       // camera.set(CAP_PROP_FPS,fps);
     }
 
     @Override
@@ -124,7 +126,14 @@ public class Camera implements ICamera{
         BufferedImage bi= ImageIO.read(new ByteArrayInputStream(ba));
         return bi;
     }
+   // @Override
+public void SetFPS(double value){
+        camera.set(CAP_PROP_FPS,value);
+}
 
-
+   // @Override
+    public double GetFPS() {
+        return camera.get(CAP_PROP_FPS);
+    }
 }
 

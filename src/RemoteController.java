@@ -1,15 +1,32 @@
 import jssc.*;
 
+import java.util.ArrayList;
+
 public class RemoteController {
      private SerialPort serialPort;
      IRemoteControllerListener listener;
-     final int BUTTON1_VALUE=1;
-     final int BUTTON2_VALUE=2;
-     final int BUTTON3_VALUE=3;
-     final int BUTTON4_VALUE=4;
-     final int BUTTON5_VALUE=5;
-     final int BUTTON6_VALUE=6;
-     final int BUTTON7_VALUE=7;
+    private final String isWhiteTop="160";//1
+    private final String isWhiteOblique1="161";//2
+    private final String isWhiteOblique2="162";//3
+    private final String isWhiteOblique3="163";//4
+    private final String isWhiteOblique4="164";//5
+    private final String isUF365="165";//6
+    private final String isAntiStocks980="166";//7
+    private final String isIRTop830="167";//8
+    private final String isIRTop950="168";//9
+    private final String isIROblique830_1="169";//10
+    private final String isIROblique830_2="170";//11
+    private final String isIROblique830_3="171";//12
+    private final String isIROblique830_4="172";//13
+    private final String isIRLum505="173";//14
+    private final String isM_Mark="174";//15
+    private final String isIRCircular830="175";//16
+    private final String isWhiteCircular="176";//17
+    private final String isZoom="192";//18
+    private final String isStop="193";//19
+    private final String isSleep="194";//20
+
+    ArrayList<Byte> infoSaver=new ArrayList<>();
 
 
     public static String[] GetSerialPorts(){
@@ -56,54 +73,122 @@ public class RemoteController {
         }
     }
 
-    private RemoteControllerEvent CreateDeviceEvent(int value){
+    private RemoteControllerEvent CreateDeviceEvent(String isMode,int range,int value){
         RemoteControllerEvent event=new RemoteControllerEvent();
-        switch (value){
-
-            case BUTTON1_VALUE:{
+        switch (isMode){
+            case isWhiteTop:{
                 event.SetBut1(true);
+                event.SetVal(value);
                 break;
             }
-            case BUTTON2_VALUE:{
+            case isWhiteOblique1:{
                 event.SetBut2(true);
+                event.SetVal(value);
                 break;
             }
-            case BUTTON3_VALUE:{
+            case isWhiteOblique2:{
                 event.SetBut3(true);
+                event.SetVal(value);
                 break;
             }
-            case BUTTON4_VALUE:{
+            case isWhiteOblique3:{
                 event.SetBut4(true);
+                event.SetVal(value);
                 break;
             }
-            case BUTTON5_VALUE:{
+            case isWhiteOblique4:{
                 event.SetBut5(true);
+                event.SetVal(value);
                 break;
             }
-            case BUTTON6_VALUE:{
+            case isUF365:{
                 event.SetBut6(true);
+                event.SetVal(value);
                 break;
             }
-            case BUTTON7_VALUE:{
+            case isAntiStocks980:{//7
                 event.SetBut7(true);
+                event.SetVal(value);
+                break;
+            }
+            case isIRTop830:{//8
+                event.SetBut8(true);
+                event.SetVal(value);
+                break;
+            }
+            case isIRTop950:{//9
+                event.SetBut9(true);
+                event.SetVal(value);
+                break;
+            }
+            case isIROblique830_1:{//10
+                event.SetBut10(true);
+                event.SetVal(value);
+                break;
+            }
+            case isIROblique830_2:{//11
+                event.SetBut11(true);
+                event.SetVal(value);
+                break;
+            }
+            case isIROblique830_3:{//12
+                event.SetBut12(true);
+                event.SetVal(value);
+                break;
+            }
+            case isIROblique830_4:{//13
+                event.SetBut13(true);
+                event.SetVal(value);
+                break;
+            }
+            case isIRLum505:{//14
+                event.SetBut14(true);
+                event.SetVal(value);
+                break;
+            }
+            case isM_Mark:{//15
+                event.SetBut15(true);
+                event.SetVal(value);
+                break;
+            }
+            case isIRCircular830:{//16
+                event.SetBut16(true);
+                event.SetVal(value);
+                event.SetRange(range);
+                break;
+            }
+            case isWhiteCircular:{//17
+                event.SetBut17(true);
+                event.SetVal(value);
+                event.SetRange(range);
+                break;
+            }
+            case isZoom:{//18
+                event.SetBut18(true);
+                event.SetVal(value);
+                break;
+            }
+            case isStop:{//19
+                event.SetBut19(true);
+                break;
+            }
+            case isSleep:{//20
+                event.SetBut20(true);
                 break;
             }
         }
         return event;
     }
 
-
-
-
      class EventListener implements SerialPortEventListener{
          @Override
          public void serialEvent(SerialPortEvent PortEvent) {
              if(PortEvent.isRXCHAR()&&PortEvent.getEventValue()>0){
                  try {
-                   String data = serialPort.readString();
-                   Integer val=Integer.parseInt(data);
-                   int value=val;
-                   listener.DeviceEvent(CreateDeviceEvent(value));
+                     byte[]data=serialPort.readBytes();
+                     for(byte i:data){
+                         infoSaver.add(i);
+                     }
                  }catch (SerialPortException e){
                      System.out.println(e);
                  }

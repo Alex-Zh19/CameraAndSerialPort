@@ -9,6 +9,8 @@ public interface ICamera {
     int GetXResolution();
     int GetYResolution();
     void SetResolution(int Width,int Height);
+    //void SetFPS(double value);
+    //double GetFPS();
     void Close();
 
 

@@ -1,5 +1,3 @@
-import java.util.Random;
-
 enum Mode {
     WhiteTop, //1
     WhiteOblique1,
@@ -34,20 +32,19 @@ public class RemoteControllerEvent {
 
 
 
-
-    public void SetMode(boolean buttonPressed){
-       isWhiteTop=buttonPressed;
+    public void SetMode(Mode m){
+       
     }//1
 
     public void SetBrightness(int Val){brightness=Val;}
 
-    public void SetRange(int range){this.range=range;}//for 16,17
+    public void SetRange(Range r){}//for 16,17
 
-    public boolean GetMode(){
-       return isWhiteTop;
+    public Mode GetMode(){
+       return mode;
     }
 
     public int GetBrightness(){return brightness;}
 
-    public int GetRange(){return range;}//for 16,17
+    public Range GetRange(){return range;}//for 16,17
 }

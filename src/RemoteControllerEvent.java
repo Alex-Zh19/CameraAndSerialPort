@@ -33,12 +33,14 @@ public class RemoteControllerEvent {
 
 
     public void SetMode(Mode m){
-       
+       mode=m;
     }//1
 
     public void SetBrightness(int Val){brightness=Val;}
 
-    public void SetRange(Range r){}//for 16,17
+    public void SetRange(Range r){
+        range=r;
+    }//for 16,17
 
     public Mode GetMode(){
        return mode;

@@ -350,201 +350,202 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
 
     @Override
     public void DeviceEvent(RemoteControllerEvent e) {
-        if(e.isButton1Pressed()){//1
+        Mode mode=e.GetMode();
+        if(mode==Mode.WhiteTop){//1
            WhiteTop(e);
-            e.SetBut1(false);
+
         }
-        else if(e.isButton2Pressed()){//2
+        else if(mode==Mode.WhiteOblique1){//2
             //do  WhiteOblique1
              WhiteOblique1(e);
-            e.SetBut2(false);
+
         }
-        else if(e.isButton3Pressed()){//3
+        else if(mode==Mode.WhiteOblique2){//3
             //do WhiteOblique2
             WhiteOblique2(e);
-            e.SetBut3(false);
+
         }
-        else if(e.isButton4Pressed()){//4
+        else if(mode==Mode.WhiteOblique3){//4
             //do WhiteOblique3
             WhiteOblique3(e);
-            e.SetBut4(false);
+
         }
-        else if(e.isButton5Pressed()){//5
+        else if(mode==Mode.WhiteOblique4){//5
             //do WhiteOblique4
             WhiteOblique4(e);
-            e.SetBut5(false);
+
         }
-        else if(e.isButton6Pressed()){//6
+        else if(mode==Mode.UF365){//6
             //do uf
               Uf(e);
-            e.SetBut6(false);
+
         }
-        else if(e.isButton7Pressed()){//7
+        else if(mode==Mode.AntiStocks980){//7
             //do antistocks
              AntiStocks(e);
-            e.SetBut7(false);
+
         }
-        else if(e.isButton8Pressed()){//8
+        else if(mode==Mode.IRTop830){//8
             //do IR top 830
              IRTop830(e);
-            e.SetBut8(false);
+
         }
-        else if(e.isButton9Pressed()){//9
+        else if(mode==Mode.IRTop950){//9
             //do IR top 950
               IRTop950(e);
-            e.SetBut9(false);
+
         }
-        else if(e.isButton10Pressed()){//10
+        else if(mode==Mode.IROblique830_1){//10
             //do IR oblique1
               IROblique1(e);
-            e.SetBut10(false);
+
         }
-        else if(e.isButton11Pressed()){//11
+        else if(mode==Mode.IROblique830_2){//11
             //do IR oblique2
             IROblique2(e);
-            e.SetBut11(false);
+
         }
-        else if(e.isButton12Pressed()){//12
+        else if(mode==Mode.IROblique830_3){//12
             //do IR oblique3
             IROblique3(e);
-            e.SetBut12(false);
+
         }
-        else if(e.isButton13Pressed()){//13
+        else if(mode==Mode.IROblique830_4){//13
             //do IR oblique4
             IROblique4(e);
-            e.SetBut13(false);
+
         }
-        else if(e.isButton14Pressed()){//14
+        else if(mode==Mode.IRLum505){//14
             //do IR Lum
              IRLum(e);
-            e.SetBut14(false);
+
         }
-        else if(e.isButton15Pressed()){//15
+        else if(mode==Mode.M_Mark){//15
             //do M-mark
                M_Mark(e);
-            e.SetBut15(false);
+
         }
-        else if(e.isButton16Pressed()){//16
+        else if(mode==Mode.IRCircular830){//16
             //do IR circular
               IRCircular(e);
-            e.SetBut16(false);
+
         }
-        else if(e.isButton17Pressed()){//17
+        else if(mode==Mode.WhiteCircular){//17
             //do WhiteCircule
             WhiteCircular(e);
-            e.SetBut17(false);
+
         }
 
-        else if(e.isButton18Pressed()){//18
+        else if(mode==Mode.Zoom){//18
             //do zoom
             ZoomControl(e);
-            e.SetBut18(false);
+
         }
-        else if(e.isButton19Pressed()){//19
+        else if(mode==Mode.Stop){//19
             //do pause
             PuaseControl();
-            e.SetBut19(false);
+
         }
-        else if(e.isButton20Pressed()){//20
+        else if(mode==Mode.Sleep){//20
             //do sleep
             RollUp();
-            e.SetBut20(false);
+
         }
 
 
     }
 
     private void WhiteTop(RemoteControllerEvent e){//1
-        int v=(int)Math.round(e.GetVal()*0.8);
+        int v=(int)Math.round(e.GetBrightness()*0.8);
         System.out.println("white top");
         WhiteFilterSlider.setValue(v);
         ModeLabel.setText("Белый Верхний");
     }
     private void WhiteOblique1(RemoteControllerEvent e){//2
-        int v=(int)Math.round(e.GetVal()*0.8);
+        int v=(int)Math.round(e.GetBrightness()*0.8);
         System.out.println("white Oblique1");
         WhiteFilterSlider.setValue(v);
         ModeLabel.setText("Белый Косопадающий 1");
     }
     private void WhiteOblique2(RemoteControllerEvent e){//3
-        int v=(int)Math.round(e.GetVal()*0.8);
+        int v=(int)Math.round(e.GetBrightness()*0.8);
         System.out.println("white Oblique2");
         WhiteFilterSlider.setValue(v);
         ModeLabel.setText("Белый Косопадающий 2");
     }
     private void WhiteOblique3(RemoteControllerEvent e){//4
-        int v=(int)Math.round(e.GetVal()*0.8);
+        int v=(int)Math.round(e.GetBrightness()*0.8);
         System.out.println("white Oblique3");
         WhiteFilterSlider.setValue(v);
         ModeLabel.setText("Белый Косопадающий 3");
     }
     private void WhiteOblique4(RemoteControllerEvent e){//5
-        int v=(int)Math.round(e.GetVal()*0.8);
+        int v=(int)Math.round(e.GetBrightness()*0.8);
         System.out.println("white Oblique4");
         WhiteFilterSlider.setValue(v);
         ModeLabel.setText("Белый Косопадающий 4");
     }
 
     private void Uf(RemoteControllerEvent e){//6
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" UF");
         ModeLabel.setText("УФ");
     }
 
     private void AntiStocks(RemoteControllerEvent e){//7
 
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" Antistocks");
         ModeLabel.setText("Антистокс");
     }
     private void IRTop830(RemoteControllerEvent e){//8
-         int val=e.GetVal();
+         int val=e.GetBrightness();
         System.out.println(val+" IRTop830");
         ModeLabel.setText("ИК Верхний 830нм");
     }
     private void IRTop950(RemoteControllerEvent e){//9
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" IRTop950");
         ModeLabel.setText("ИК Верхний 950нм");
     }
     private void IROblique1(RemoteControllerEvent e){//10
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" IR Oblique1");
         ModeLabel.setText("ИК Косопадающий 1");
     }
     private void IROblique2(RemoteControllerEvent e){//11
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" IR Oblique2");
         ModeLabel.setText("ИК Косопадающий 2");
     }
     private void IROblique3(RemoteControllerEvent e){//12
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" IR Oblique3");
         ModeLabel.setText("ИК Косопадающий 3");
     }
     private void IROblique4(RemoteControllerEvent e){//13
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" IR Oblique4");
         ModeLabel.setText("ИК Косопадающий 4");
     }
     private void IRLum(RemoteControllerEvent e){//14
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" IR Lum");
         ModeLabel.setText("ИК Люминесценция");
     }
     private void M_Mark(RemoteControllerEvent e){//15
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         System.out.println(val+" M_mark");
         ModeLabel.setText("М-метка");
     }
     private void IRCircular(RemoteControllerEvent e){//16
-        int val=e.GetVal();
+        int val=e.GetBrightness();
         int range=e.GetRange();
         System.out.println(val+"  range:"+range+" IR Oblique4");
         ModeLabel.setText("ИК Круговой");
     }
     private void WhiteCircular(RemoteControllerEvent e){//17
-        int v=(int)Math.round(e.GetVal()*0.8);
+        int v=(int)Math.round(e.GetBrightness()*0.8);
         int range=e.GetRange();
         System.out.println("white Circular");
         WhiteFilterSlider.setValue(v);
@@ -552,13 +553,13 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
     }
     private void ZoomControl(RemoteControllerEvent e){//18
         if( editZoom.GetZoomFactor()>1.0d){
-            double Fact = e.GetVal();
+            double Fact = e.GetBrightness();
             Fact = Fact / 50;
             double factor=editZoom.GetZoomFactor();
             editZoom.SetZoomFactor(factor-Fact);
         }else
         if(editZoom.GetZoomFactor()<=3.0d) {
-            double Fact = e.GetVal();
+            double Fact = e.GetBrightness();
             Fact = Fact / 50;
             double factor = editZoom.GetZoomFactor();
             editZoom.SetZoomFactor(factor + Fact);

@@ -82,103 +82,105 @@ public class RemoteController {
         int range=rang;
         switch (isMode){
             case isWhiteTop:{
-                event.SetBut1(true);
-                event.SetVal(value);
+                event.SetMode(Mode.WhiteTop);
+                event.SetBrightness(value);
                 break;
             }
             case isWhiteOblique1:{
-                event.SetBut2(true);
-                event.SetVal(value);
+                event.SetMode(Mode.WhiteOblique1);
+                event.SetBrightness(value);
                 break;
             }
             case isWhiteOblique2:{
-                event.SetBut3(true);
-                event.SetVal(value);
+                event.SetMode(Mode.WhiteOblique2);
+                event.SetBrightness(value);
                 break;
             }
             case isWhiteOblique3:{
-                event.SetBut4(true);
-                event.SetVal(value);
+                event.SetMode(Mode.WhiteOblique3);
+                event.SetBrightness(value);
                 break;
             }
             case isWhiteOblique4:{
-                event.SetBut5(true);
-                event.SetVal(value);
+                event.SetMode(Mode.WhiteOblique4);
+                event.SetBrightness(value);
                 break;
             }
             case isUF365:{
-                event.SetBut6(true);
-                event.SetVal(value);
+                event.SetMode(Mode.UF365);
+                event.SetBrightness(value);
                 break;
             }
             case isAntiStocks980:{//7
-                event.SetBut7(true);
-                event.SetVal(value);
+                event.SetMode(Mode.AntiStocks980);
+                event.SetBrightness(value);
                 break;
             }
             case isIRTop830:{//8
-                event.SetBut8(true);
-                event.SetVal(value);
+                 event.SetMode(Mode.IRTop830);
+                event.SetBrightness(value);
                 break;
             }
             case isIRTop950:{//9
-                event.SetBut9(true);
-                event.SetVal(value);
+                event.SetMode(Mode.IRTop950);
+                event.SetBrightness(value);
                 break;
             }
             case isIROblique830_1:{//10
-                event.SetBut10(true);
-                event.SetVal(value);
+                event.SetMode(Mode.IROblique830_1);
+                event.SetBrightness(value);
                 break;
             }
             case isIROblique830_2:{//11
-                event.SetBut11(true);
-                event.SetVal(value);
+                event.SetMode(Mode.IROblique830_2);
+                event.SetBrightness(value);
                 break;
             }
             case isIROblique830_3:{//12
-                event.SetBut12(true);
-                event.SetVal(value);
+                event.SetMode(Mode.IROblique830_3);
+                event.SetBrightness(value);
                 break;
             }
             case isIROblique830_4:{//13
-                event.SetBut13(true);
-                event.SetVal(value);
+                event.SetMode(Mode.IROblique830_4);
+                event.SetBrightness(value);
                 break;
             }
             case isIRLum505:{//14
-                event.SetBut14(true);
-                event.SetVal(value);
+                event.SetMode(Mode.IRLum505);
+                event.SetBrightness(value);
                 break;
             }
             case isM_Mark:{//15
-                event.SetBut15(true);
-                event.SetVal(value);
+                event.SetMode(Mode.M_Mark);
+                event.SetBrightness(value);
                 break;
             }
             case isIRCircular830:{//16
-                event.SetBut16(true);
-                event.SetVal(value);
+                event.SetMode(Mode.IRCircular830);
+                event.SetBrightness(value);
                 event.SetRange(range);
                 break;
             }
             case isWhiteCircular:{//17
-                event.SetBut17(true);
-                event.SetVal(value);
+                event.SetMode(Mode.WhiteCircular);
+                event.SetBrightness(value);
                 event.SetRange(range);
                 break;
             }
             case isZoom:{//18
-                event.SetBut18(true);
-                event.SetVal(value);
+                event.SetMode(Mode.Zoom);
+                event.SetBrightness(value);
                 break;
             }
             case isStop:{//19
-                event.SetBut19(true);
+                event.SetMode(Mode.Stop);
+
                 break;
             }
             case isSleep:{//20
-                event.SetBut20(true);
+                event.SetMode(Mode.Sleep);
+
                 break;
             }
         }

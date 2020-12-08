@@ -5,28 +5,29 @@ import java.util.List;
 import java.util.Queue;
 
 public class RemoteController {
-     private SerialPort serialPort;
+
+    private SerialPort serialPort;
      IRemoteControllerListener listener;
-    private final String isWhiteTop="160";//1
-    private final String isWhiteOblique1="161";//2
-    private final String isWhiteOblique2="162";//3
-    private final String isWhiteOblique3="163";//4
-    private final String isWhiteOblique4="164";//5
-    private final String isUF365="165";//6
-    private final String isAntiStocks980="166";//7
-    private final String isIRTop830="167";//8
-    private final String isIRTop950="168";//9
-    private final String isIROblique830_1="169";//10
-    private final String isIROblique830_2="170";//11
-    private final String isIROblique830_3="171";//12
-    private final String isIROblique830_4="172";//13
-    private final String isIRLum505="173";//14
-    private final String isM_Mark="174";//15
-    private final String isIRCircular830="175";//16
-    private final String isWhiteCircular="176";//17
-    private final String isZoom="192";//18
-    private final String isStop="193";//19
-    private final String isSleep="194";//20
+    private final byte isWhiteTop=(byte)0xA0;//1
+    private final byte isWhiteOblique1=(byte)0xA1;//2
+    private final byte isWhiteOblique2=(byte)0xA2;//3
+    private final byte isWhiteOblique3=(byte)0xA3;//4
+    private final byte isWhiteOblique4=(byte)0xA4;//5
+    private final byte isUF365=(byte)0xA5;//6
+    private final byte isAntiStocks980=(byte)0xA6;//7
+    private final byte isIRTop830=(byte)0xA7;//8
+    private final byte isIRTop950=(byte)0xA8;//9
+    private final byte isIROblique830_1=(byte)0xA9;//10
+    private final byte isIROblique830_2=(byte)0xAA;//11
+    private final byte isIROblique830_3=(byte)0xAB;//12
+    private final byte isIROblique830_4=(byte)0xAC;//13
+    private final byte isIRLum505=(byte)0xAD;//14
+    private final byte isM_Mark=(byte)0xAE;//15
+    private final byte isIRCircular830=(byte)0xAF;//16
+    private final byte isWhiteCircular=(byte)0xB0;//17
+    private final byte isZoom=(byte)0xC0;//18
+    private final byte isStop=(byte)0xC1;//19
+    private final byte isSleep=(byte)0xC2;//20
 
    Queue<Byte> infoSaver=new LinkedList<>();
 
@@ -75,8 +76,10 @@ public class RemoteController {
         }
     }
 
-    private RemoteControllerEvent CreateDeviceEvent(String isMode,int range,int value){
+    private RemoteControllerEvent CreateDeviceEvent(byte isMode,byte rang,byte val){
         RemoteControllerEvent event=new RemoteControllerEvent();
+        int value=val;
+        int range=rang;
         switch (isMode){
             case isWhiteTop:{
                 event.SetBut1(true);

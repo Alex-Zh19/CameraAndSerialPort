@@ -1,6 +1,8 @@
 import jssc.*;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class RemoteController {
      private SerialPort serialPort;
@@ -26,7 +28,7 @@ public class RemoteController {
     private final String isStop="193";//19
     private final String isSleep="194";//20
 
-    ArrayList<Byte> infoSaver=new ArrayList<>();
+   Queue<Byte> infoSaver=new LinkedList<>();
 
 
     public static String[] GetSerialPorts(){
@@ -186,8 +188,18 @@ public class RemoteController {
              if(PortEvent.isRXCHAR()&&PortEvent.getEventValue()>0){
                  try {
                      byte[]data=serialPort.readBytes();
+                     byte[]packData=new byte[3];
+                     int h=0;
                      for(byte i:data){
-                         infoSaver.add(i);
+                         infoSaver.offer(i);
+                     }
+                     while(infoSaver.size()>=3){
+                         packData[h]=infoSaver.poll();
+                         h++;
+                         if(h==3){
+                             CreateDeviceEvent(packData[0],packData[1],packData[2]);
+                             h=0;
+                         }
                      }
                  }catch (SerialPortException e){
                      System.out.println(e);

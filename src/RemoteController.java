@@ -200,7 +200,8 @@ public class RemoteController {
                          packData[h]=infoSaver.poll();
                          h++;
                          if(h==3){
-                             CreateDeviceEvent(packData[0],packData[1],packData[2]);
+                             //System.out.println(packData[0]+" "+packData[1]+" "+packData[2]);
+                             listener.DeviceEvent(CreateDeviceEvent(packData[0],packData[1],packData[2]));
                              h=0;
                          }
                      }

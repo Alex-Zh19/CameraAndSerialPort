@@ -1,26 +1,30 @@
+enum Mode {
+    isWhiteTop, //1
+    isWhiteOblique1,//2
+    isWhiteOblique2,//3
+    isWhiteOblique3,//4
+    isWhiteOblique4,//5
+    isUF365,//6
+    isAntiStocks980,//7
+    isIRTop830,//8
+    isIRTop950,//9
+    isIROblique830_1,//10
+    isIROblique830_2,//11
+    isIROblique830_3,//12
+    isIROblique830_4,//13
+    isIRLum505,//14
+    isM_Mark,//15
+    isIRCircular830,//16
+    isWhiteCircular,//17
+    isZoom,//18
+    isStop,//19
+    isSleep//20
+}
 public class RemoteControllerEvent {
-    private boolean isWhiteTop=false;//1
-    private boolean isWhiteOblique1=false;//2
-    private boolean isWhiteOblique2=false;//3
-    private boolean isWhiteOblique3=false;//4
-    private boolean isWhiteOblique4=false;//5
-    private boolean isUF365=false;//6
-    private boolean isAntiStocks980=false;//7
-    private boolean isIRTop830=false;//8
-    private boolean isIRTop950=false;//9
-    private boolean isIROblique830_1=false;//10
-    private boolean isIROblique830_2=false;//11
-    private boolean isIROblique830_3=false;//12
-    private boolean isIROblique830_4=false;//13
-    private boolean isIRLum505=false;//14
-    private boolean isM_Mark=false;//15
-    private boolean isIRCircular830=false;//16
-    private boolean isWhiteCircular=false;//17
-    private boolean isZoom=false;//18
-    private boolean isStop=false;//19
-    private boolean isSleep=false;//20
+    Mode mode;
     private int value;
     private int range;
+
 
 
 

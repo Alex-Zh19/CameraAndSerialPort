@@ -53,6 +53,10 @@ public class ImageProcessorTest {
     @Test
     public void applyFilters() {
         BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+
+        ImageProcessor testProcessor=new ImageProcessor();
+        Assert.assertTrue(imageEqual(image, testProcessor.ApplyFilters(image)));
+
         BufferedImage expected=filter.Apply(image);
         Assert.assertFalse(imageEqual(expected,image));
     }

@@ -48,7 +48,7 @@ public class ImageProcessorTest {
         ImageProcessor testProcessor=new ImageProcessor();
         testProcessor.AddFilter(filter);
 
-        Assert.assertEquals(expectedfiltersTestList,testProcessor.filters);
+        Assert.assertEquals(expectedfiltersTestList,testProcessor.GetFilters());
     }
 
     @Test

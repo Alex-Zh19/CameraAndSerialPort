@@ -2,7 +2,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class ImageProcessor {
-     ArrayList<IImageEditor>filters=new ArrayList<>();
+     private ArrayList<IImageEditor>filters=new ArrayList<>();
 
      public void AddFilter(IImageEditor editor){
           filters.add(editor);
@@ -15,4 +15,7 @@ public class ImageProcessor {
           return original;
      }
 
+     public ArrayList<IImageEditor> GetFilters(){
+          return filters;
+     }
 }

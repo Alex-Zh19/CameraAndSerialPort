@@ -32,8 +32,7 @@ class TestFilter implements IImageEditor{
 
 
 public class ImageProcessorTest {
-TestFilter filter=new TestFilter(2);
-
+    TestFilter filter=new TestFilter(2);
 
     @Test
     public void addFilter() {
@@ -42,7 +41,9 @@ TestFilter filter=new TestFilter(2);
 
     @Test
     public void applyEditors_no_null() {
+        BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
         ImageProcessor processor=new ImageProcessor();
-        BufferedImage expected=processor.ApplyFilters();
+        BufferedImage expected=processor.ApplyFilters(image);
+        Assert.assertNotNull(expected);
     }
 }

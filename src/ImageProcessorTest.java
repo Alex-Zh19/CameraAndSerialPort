@@ -37,9 +37,10 @@ class TestFilter implements IImageEditor{
 
 
 public class ImageProcessorTest {
-    TestFilter filter=new TestFilter(2);
+
     @Test
     public void addFilter() {
+        TestFilter filter=new TestFilter(2);
         ArrayList<IImageEditor> expectedfiltersTestList=new ArrayList<>();
         TestFilter filterToFailTest=new TestFilter(3);
         expectedfiltersTestList.add(filter);
@@ -52,6 +53,7 @@ public class ImageProcessorTest {
 
     @Test
     public void applyFilters() {
+        TestFilter filter=new TestFilter(2);
         BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
 
         ImageProcessor testProcessor=new ImageProcessor();
@@ -63,6 +65,7 @@ public class ImageProcessorTest {
 
     @Test
     public void applyFilters_no_null() {
+        TestFilter filter=new TestFilter(2);
         BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
         BufferedImage expected=filter.Apply(image);
         Assert.assertNotNull(expected);

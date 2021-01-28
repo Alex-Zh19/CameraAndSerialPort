@@ -1,6 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static org.junit.Assert.*;
@@ -13,9 +14,12 @@ class TestFilter implements IImageEditor{
     }
 
     private BufferedImage AddNumberToPixels(BufferedImage orig){
-        BufferedImage dstImage=orig;
-        for(int i=0;i<orig.getWidth();++i){
-            for(int j=0;i<orig.getHeight();++j){
+        BufferedImage dstImage = new BufferedImage(orig.getWidth(), orig.getHeight(), orig.getType());
+        Graphics g = dstImage.getGraphics();
+        g.drawImage(orig, 0, 0, null);
+        g.dispose();
+        for(int i=0;i<orig.getWidth();i++){
+            for(int j=0;j<orig.getHeight();j++){
                 int orignum=orig.getRGB(i,j);
                 dstImage.setRGB(i,j,orignum+number);
             }
@@ -33,7 +37,6 @@ class TestFilter implements IImageEditor{
 
 public class ImageProcessorTest {
     TestFilter filter=new TestFilter(2);
-    BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
     @Test
     public void addFilter() {
 
@@ -41,19 +44,21 @@ public class ImageProcessorTest {
 
     @Test
     public void applyFilters() {
+        BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
         BufferedImage expected=filter.Apply(image);
-        Assert.assertTrue(imageEqual(expected,image));
+        Assert.assertFalse(imageEqual(expected,image));
     }
 
     @Test
-    public void applyEditors_no_null() {
+    public void applyFilters_no_null() {
+        BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
         BufferedImage expected=filter.Apply(image);
         Assert.assertNotNull(expected);
     }
 
     boolean imageEqual(BufferedImage im1,BufferedImage im2){
         for(int i=0;i<im1.getWidth();++i){
-            for(int j=0;i<im1.getHeight();++j){
+            for(int j=0;j<im1.getHeight();++j){
                 int im1Num=im1.getRGB(i,j);
                 int im2Num=im2.getRGB(i,j);
                 if(im1Num!=im2Num){

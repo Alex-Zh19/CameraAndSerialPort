@@ -347,8 +347,8 @@ infoAndButtons.add(infoBox);
     @Override
     public void AcceptImage(BufferedImage bi) {
         BufferedImage videoImage=bi;
-        videoImage=processor.ApplyEditors(bi);
-        videoImage= processor.ApplyEditors(videoImage);
+        videoImage=processor.ApplyFilters(bi);
+        videoImage= processor.ApplyFilters(videoImage);
         videoImage=StretchOutImage(videoImage);
         RepaintImage(videoImage);
         saveImage=bi;

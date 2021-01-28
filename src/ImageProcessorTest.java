@@ -15,6 +15,6 @@ public class ImageProcessorTest {
     @Test
     public void applyEditors_no_null() {
         ImageProcessor processor=new ImageProcessor();
-        BufferedImage expected=processor.ApplyEditors();
+        BufferedImage expected=processor.ApplyFilters();
     }
 }

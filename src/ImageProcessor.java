@@ -8,7 +8,7 @@ public class ImageProcessor {
           filters.add(editor);
      }
 
-     public BufferedImage ApplyEditors(BufferedImage original){
+     public BufferedImage ApplyFilters(BufferedImage original){
           for (IImageEditor edit:filters){
                original=edit.Apply(original);
           }

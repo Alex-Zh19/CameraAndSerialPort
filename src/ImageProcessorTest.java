@@ -3,6 +3,7 @@ import org.junit.Test;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -39,7 +40,14 @@ public class ImageProcessorTest {
     TestFilter filter=new TestFilter(2);
     @Test
     public void addFilter() {
+        ArrayList<IImageEditor> expectedfiltersTestList=new ArrayList<>();
+        TestFilter filterToFailTest=new TestFilter(3);
+        expectedfiltersTestList.add(filter);
 
+        ImageProcessor testProcessor=new ImageProcessor();
+        testProcessor.AddFilter(filter);
+
+        Assert.assertEquals(expectedfiltersTestList,testProcessor.filters);
     }
 
     @Test

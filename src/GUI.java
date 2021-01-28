@@ -10,6 +10,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,15 +23,14 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
     private JMenuBar Menu=new JMenuBar();
 
     private JButton PauseButton=new JButton("Пауза");
-    private JButton CloseButton=new JButton("Закрыть");
     private JButton ConnectButton=new JButton("Соединить");
     private JButton resetButton=new JButton("Сброс");
 
     private JLabel video=new JLabel();
-    private JLabel FpsLabel=new JLabel("50");
     private JLabel CountOfPixelsLabel=new JLabel("0.0");
     private JLabel resolutionLabel=new JLabel("640x480");
     private JLabel ModeLabel=new JLabel("Режим");
+    private JLabel brightLabel=new JLabel("Яркость подсветки");
 
 
     private JSlider BrightnessSlider=new JSlider();
@@ -63,6 +63,7 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
 
     private int WidthResol=640;
     private int HeightResol=480;
+    double r=1;
 
     private boolean ScheduleIsRunning=false;
     private boolean isOnPause=false;
@@ -71,7 +72,7 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
     private   double CountOfPixels=0.0;
     ArrayList<Integer> camsID;
     JComboBox camsCombo;
-    final  int DEFAULT_CAM_ID=0;
+    final  int DEFAULT_CAM_ID=1;
     int cameraID=DEFAULT_CAM_ID;
     Box ButtonBox = Box.createHorizontalBox();
 
@@ -123,6 +124,8 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         recorder.setCameraListener(this);
 
 
+
+
         video.setPreferredSize(new Dimension(WidthResol,HeightResol));
         //GUI creation start
         setTitle("Camera");
@@ -131,22 +134,25 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         ButtonBox.add(Box.createHorizontalStrut(20));
         ButtonBox.add(PauseButton);
         PauseButton.setEnabled(false);
-        ButtonBox.add(Box.createHorizontalStrut(15));
-        ButtonBox.add(resetButton);
-        resetButton.setEnabled(false);
-        ButtonBox.add(Box.createHorizontalStrut(15));
-        ButtonBox.add(CloseButton);
-        ButtonBox.add(Box.createHorizontalStrut(15));
 
-
+        ButtonBox.add(Box.createHorizontalStrut(15));
 
         ButtonBox.add(Box.createHorizontalStrut(15));
         ButtonBox.add(ConnectButton);
 
         ButtonBox.add(Box.createHorizontalStrut(5));
 
+Box infoAndButtons=Box.createHorizontalBox();
+Box infoBox=Box.createHorizontalBox();
 
+infoBox.add(ModeLabel);
+        infoBox.add(Box.createHorizontalStrut(125));
+        infoBox.add(brightLabel);
 
+infoAndButtons.add(Box.createVerticalStrut(5));
+infoAndButtons.add(infoBox);
+        infoAndButtons.add(Box.createVerticalStrut(5));
+        infoAndButtons.add(ButtonBox);
         //HSL sliders
         Box HSLSliderBox=Box.createVerticalBox();
         HSLSliderBox.add(Box.createVerticalStrut(5));
@@ -181,8 +187,8 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         HSLSliderBox.add(SaturationSlider);
         SaturationSlider.setMajorTickSpacing(10);
         SaturationSlider.setMinorTickSpacing(5);
-        SaturationSlider.setMinimum(-20);
-        SaturationSlider.setMaximum(80);
+        SaturationSlider.setMinimum(-50);
+        SaturationSlider.setMaximum(50);
         SaturationSlider.setValue(0);
         SaturationSlider.setPaintTicks(true);
         SaturationSlider.setPaintLabels(true);
@@ -240,7 +246,9 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         BColorSlider.setValue(0);
         BColorSlider.setPaintTicks(true);
         BColorSlider.setPaintLabels(true);
-
+        ColorSliderBox.add(Box.createVerticalStrut(10));
+        ColorSliderBox.add(resetButton);
+        resetButton.setEnabled(false);
 
         Box EditorBox = Box.createVerticalBox();
         EditorBox.add(HSLSliderBox);
@@ -256,11 +264,6 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         DistanceLabelBox.add(CountOfPixelsLabel);
         InfoBox.add(DistanceLabelBox);
 
-        Box FpsLabelBox=Box.createVerticalBox();
-        FpsLabelBox.add(new JLabel("FPS"));
-        FpsLabelBox.add(Box.createVerticalStrut(5));
-        FpsLabelBox.add(FpsLabel);
-        InfoBox.add(FpsLabelBox);
 
         Box resolutionLabelBox=Box.createVerticalBox();
         resolutionLabelBox.add(new JLabel("Разрешение"));
@@ -268,16 +271,16 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         resolutionLabelBox.add(resolutionLabel);
         InfoBox.add(resolutionLabelBox);
 
-        Box ModeLabelBox=Box.createVerticalBox();
+        /*Box ModeLabelBox=Box.createVerticalBox();
         ModeLabelBox.add(new JLabel("Режим"));
         ModeLabelBox.add(Box.createVerticalStrut(5));
         ModeLabelBox.add(ModeLabel);
-        InfoBox.add(ModeLabelBox);
+        InfoBox.add(ModeLabelBox);*/
 
         Box SettingsBox=Box.createVerticalBox();
         SettingsBox.add(Box.createVerticalStrut(10));
 
-        SettingsBox.add(new JLabel("FPS"));
+        /*SettingsBox.add(new JLabel("FPS"));
         SettingsBox.add(Box.createVerticalStrut(5));
         SettingsBox.add(FPSSlider);
         FPSSlider.setOrientation(1);
@@ -287,11 +290,11 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         FPSSlider.setPaintTicks(true);
         FPSSlider.setPaintLabels(true);
         FPSSlider.setMinimum(0);
-        FPSSlider.setMaximum(100);
+        FPSSlider.setMaximum(100);*/
 
 
         //Listener
-        CloseButton.addActionListener(new CloseButtonListener());
+
         PauseButton.addActionListener(new PauseButtonListener());
         ConnectButton.addActionListener(new ConnectButtonListener());
         RColorSlider.addChangeListener(new RColorSliderListener());
@@ -303,7 +306,6 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         WhiteFilterSlider.addChangeListener(new WhiteFilterSliderListener());
         addMouseWheelListener(new MouseWheelListener());
         addMouseListener(new MouseButtonsListener());
-        FPSSlider.addChangeListener(new FPSSliderListener());
         addKeyListener(new Pausebykeyboard());
         resetButton.addActionListener(new ResetButtonListener());
         //
@@ -319,13 +321,17 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         saveMenuItem = fileMenu.add(saveAction);
         saveMenuItem.setEnabled(false);
         closeMenuItem=fileMenu.add(closeAction);
-        fpsMenuItem=settingsMenu.add(FPS);
         resolutionMenuItem=settingsMenu.add(Resolution);
         openMenuItem=fileMenu.add(openAction);
 
         Container layout=getContentPane();
 
-        layout.add(ButtonBox, BorderLayout.NORTH);
+
+        Box videoBox=Box.createVerticalBox();
+        videoBox.add(Box.createVerticalStrut(15));
+        videoBox.add(video);
+
+        layout.add(infoAndButtons, BorderLayout.NORTH);
         layout. add(EditorBox,BorderLayout.EAST);
         layout. add(InfoBox,BorderLayout.SOUTH);
         layout.add(SettingsBox, BorderLayout.WEST);
@@ -340,7 +346,7 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
     //main
     @Override
     public void AcceptImage(BufferedImage bi) {
-        BufferedImage videoImage=null;
+        BufferedImage videoImage=bi;
         videoImage=processor.ApplyEditors(bi);
         videoImage= processor.ApplyEditors(videoImage);
         videoImage=StretchOutImage(videoImage);
@@ -353,7 +359,6 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         Mode mode=e.GetMode();
         if(mode==Mode.WhiteTop){//1
            WhiteTop(e);
-
         }
         else if(mode==Mode.WhiteOblique1){//2
             //do  WhiteOblique1
@@ -456,100 +461,131 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
     }
 
     private void WhiteTop(RemoteControllerEvent e){//1
-        int v=(int)Math.round(e.GetBrightness()*0.8);
-        System.out.println("white top");
-        WhiteFilterSlider.setValue(v);
+        setState(JFrame.NORMAL);
+        Integer r= e.GetBrightness();
+        SaturationSlider.setValue(0);
         ModeLabel.setText("Белый Верхний");
+        brightLabel.setText(r.toString());
     }
     private void WhiteOblique1(RemoteControllerEvent e){//2
-        int v=(int)Math.round(e.GetBrightness()*0.8);
-        System.out.println("white Oblique1");
-        WhiteFilterSlider.setValue(v);
+        Integer r= e.GetBrightness();
+       // System.out.println("white Oblique1");
+        SaturationSlider.setValue(0);
         ModeLabel.setText("Белый Косопадающий 1");
+        brightLabel.setText(r.toString());
     }
     private void WhiteOblique2(RemoteControllerEvent e){//3
-        int v=(int)Math.round(e.GetBrightness()*0.8);
-        System.out.println("white Oblique2");
-        WhiteFilterSlider.setValue(v);
+        Integer r= e.GetBrightness();
+       // System.out.println("white Oblique2");
+        SaturationSlider.setValue(0);
         ModeLabel.setText("Белый Косопадающий 2");
+        brightLabel.setText(r.toString());
     }
     private void WhiteOblique3(RemoteControllerEvent e){//4
-        int v=(int)Math.round(e.GetBrightness()*0.8);
-        System.out.println("white Oblique3");
-        WhiteFilterSlider.setValue(v);
+        Integer r= e.GetBrightness();
+      //  System.out.println("white Oblique3");
+        SaturationSlider.setValue(0);
         ModeLabel.setText("Белый Косопадающий 3");
+        brightLabel.setText(r.toString());
     }
     private void WhiteOblique4(RemoteControllerEvent e){//5
-        int v=(int)Math.round(e.GetBrightness()*0.8);
-        System.out.println("white Oblique4");
-        WhiteFilterSlider.setValue(v);
+        Integer r= e.GetBrightness();
+       // System.out.println("white Oblique4");
+        SaturationSlider.setValue(0);
         ModeLabel.setText("Белый Косопадающий 4");
+        brightLabel.setText(r.toString());
     }
 
     private void Uf(RemoteControllerEvent e){//6
-        int val=e.GetBrightness();
-        System.out.println(val+" UF");
+        Integer r= e.GetBrightness();
+       // System.out.println(val+" UF");
+        SaturationSlider.setValue(0);
         ModeLabel.setText("УФ");
+        brightLabel.setText(r.toString());
     }
 
     private void AntiStocks(RemoteControllerEvent e){//7
 
-        int val=e.GetBrightness();
-        System.out.println(val+" Antistocks");
+        Integer r= e.GetBrightness();
+        //System.out.println(val+" Antistocks");
+        SaturationSlider.setValue(0);
         ModeLabel.setText("Антистокс");
+        brightLabel.setText(r.toString());
     }
     private void IRTop830(RemoteControllerEvent e){//8
-         int val=e.GetBrightness();
-        System.out.println(val+" IRTop830");
+        Integer r= e.GetBrightness();
+       // System.out.println(val+" IRTop830");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("ИК Верхний 830нм");
+        brightLabel.setText(r.toString());
     }
     private void IRTop950(RemoteControllerEvent e){//9
-        int val=e.GetBrightness();
-        System.out.println(val+" IRTop950");
+        Integer r= e.GetBrightness();
+       // System.out.println(val+" IRTop950");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("ИК Верхний 950нм");
+        brightLabel.setText(r.toString());
     }
     private void IROblique1(RemoteControllerEvent e){//10
-        int val=e.GetBrightness();
-        System.out.println(val+" IR Oblique1");
+        Integer r= e.GetBrightness();
+      //  System.out.println(val+" IR Oblique1");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("ИК Косопадающий 1");
+        brightLabel.setText(r.toString());
     }
     private void IROblique2(RemoteControllerEvent e){//11
-        int val=e.GetBrightness();
-        System.out.println(val+" IR Oblique2");
+        Integer r= e.GetBrightness();
+      //  System.out.println(val+" IR Oblique2");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("ИК Косопадающий 2");
+        brightLabel.setText(r.toString());
     }
     private void IROblique3(RemoteControllerEvent e){//12
-        int val=e.GetBrightness();
-        System.out.println(val+" IR Oblique3");
+        Integer r= e.GetBrightness();
+      //  System.out.println(val+" IR Oblique3");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("ИК Косопадающий 3");
+        brightLabel.setText(r.toString());
     }
     private void IROblique4(RemoteControllerEvent e){//13
-        int val=e.GetBrightness();
-        System.out.println(val+" IR Oblique4");
+        Integer r= e.GetBrightness();
+      //  System.out.println(val+" IR Oblique4");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("ИК Косопадающий 4");
+        brightLabel.setText(r.toString());
     }
     private void IRLum(RemoteControllerEvent e){//14
-        int val=e.GetBrightness();
-        System.out.println(val+" IR Lum");
+        Integer r= e.GetBrightness();
+      //  System.out.println(val+" IR Lum");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("ИК Люминесценция");
+        brightLabel.setText(r.toString());
     }
     private void M_Mark(RemoteControllerEvent e){//15
-        int val=e.GetBrightness();
-        System.out.println(val+" M_mark");
+        Integer r= e.GetBrightness();
+       // System.out.println(val+" M_mark");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("М-метка");
+        brightLabel.setText(r.toString());
     }
     private void IRCircular(RemoteControllerEvent e){//16
         int val=e.GetBrightness();
         int range=e.GetRange();
-        System.out.println(val+"  range:"+range+" IR Oblique4");
+        Integer r=val;
+       // System.out.println(val+"  range:"+range+" IR Oblique4");
+        SaturationSlider.setValue(SaturationSlider.getMinimum());
         ModeLabel.setText("ИК Круговой");
+        brightLabel.setText(r.toString());
     }
     private void WhiteCircular(RemoteControllerEvent e){//17
         int v=(int)Math.round(e.GetBrightness()*0.8);
         int range=e.GetRange();
-        System.out.println("white Circular");
+        Integer r= e.GetBrightness();
+       // System.out.println("white Circular");
+        SaturationSlider.setValue(0);
         WhiteFilterSlider.setValue(v);
         ModeLabel.setText("Белый Круговой");
+        brightLabel.setText(r.toString());
     }
     private void ZoomControl(RemoteControllerEvent e){//18
         if( editZoom.GetZoomFactor()>1.0d){
@@ -601,6 +637,7 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
                 newHeight=(int)Math.round(k*newWidth);
             }
         }
+        r=(double) newWidth/bi.getWidth();
         BufferedImage dstImage = new BufferedImage(newWidth , newHeight , BufferedImage.TYPE_INT_RGB);
         dstImage.getGraphics().drawImage(bi.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH),
                 0, 0, null);
@@ -698,50 +735,12 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
         }
     };
 
-    Action FPS = new AbstractAction("FPS") {
-        @Override
-        public void actionPerformed(ActionEvent actionEvent) {
-            Box fpsBox = Box.createVerticalBox();
-            JLabel input = new JLabel("Введите FPS");
-            Integer fps=Integer.parseInt(FpsLabel.getText());
-            String Stringfps=fps.toString();
-            JTextField inputFPS = new JTextField(Stringfps, 15);
-            fpsBox.add(input);
-            fpsBox.add(Box.createVerticalStrut(10));
-            fpsBox.add(inputFPS);
-            inputFPS.setMaximumSize(inputFPS.getPreferredSize());
-            JOptionPane.showMessageDialog(GUI.this,
-                    fpsBox, "" +
-                            "FPS", JOptionPane.QUESTION_MESSAGE);
-            Integer Val= Integer.parseInt(inputFPS.getText());
-            if(Val<=0||Val>100){
-                JOptionPane.showMessageDialog(GUI.this, "Нерпаивльный формат");
-                Val=50;
-            }
-            FpsLabel.setText(Val.toString());
-            FPSSlider.setValue(Val);
-            getContentPane().repaint();
-            if(ScheduleIsRunning){
-                recorder.Stop();
-                int value=Val;
-                int realVal=(int)Math.round(1000/value);
-                recorder.SetFPS(realVal);
-                recorder.Start();
-            }else{
-                int value=Val;
-                int realVal=(int)Math.round(1000/value);
-                recorder.SetFPS(realVal);
-            }
-
-        }
-    };
-
     Action Resolution = new AbstractAction("Разрешение") {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             Box resolBox = Box.createVerticalBox();
             JLabel input = new JLabel("Разрешение");
-            String[]ResolutionsStrings={"320x240","352x288","640x480","1280x720"};
+            String[]ResolutionsStrings={"160x120","320x240","640x480","800x600","1024x768","2048x1536","2592x1944"};
             JComboBox ResolutionCombo =new JComboBox(ResolutionsStrings);
             ResolutionCombo.setSelectedItem(resolutionLabel.getText());
             resolBox.add(input);
@@ -758,7 +757,9 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
     public void ShowCountOfPixels(){
         Double CountPixe;
         CountPixe=CountOfPixels/editZoom.GetZoomFactor();
-        CountOfPixelsLabel.setText(CountPixe.toString());
+        CountPixe/=r;
+        String formatDate=new DecimalFormat("#0.00").format(CountPixe);
+        CountOfPixelsLabel.setText(formatDate);
     }
 
 
@@ -776,14 +777,6 @@ public class GUI extends JFrame implements ICameraListener,IRemoteControllerList
                 recorder.SetIsOnPause(false);
 
             }
-        }
-    }
-
-
-    class CloseButtonListener implements ActionListener{
-        public void actionPerformed(ActionEvent event){
-            recorder.StopAndClose();
-            System.exit(0);
         }
     }
 
@@ -1137,28 +1130,6 @@ class Pausebykeyboard implements java.awt.event.KeyListener{
         }
 
     }
-
-    class FPSSliderListener implements ChangeListener{
-        @Override
-        public void stateChanged(ChangeEvent changeEvent) {
-            JSlider Buffer=(JSlider)changeEvent.getSource();
-            if(!Buffer.getValueIsAdjusting()){
-                int value=Buffer.getValue();
-                if(value==0){
-                    value=1;
-                }
-                Integer Val=value;
-                FpsLabel.setText(Val.toString());
-                if(ScheduleIsRunning){
-                    recorder.Stop();
-                }
-                int realVal=(int)Math.round(1000/value);
-                recorder.SetFPS(realVal);
-                recorder.Start();
-            }
-        }
-    }
-
 
 
     class CamsIDComboListener implements ItemListener {

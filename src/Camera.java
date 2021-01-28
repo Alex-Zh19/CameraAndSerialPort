@@ -23,6 +23,8 @@ public class Camera implements ICamera{
 
     private BufferedImage VideoIm=null;
 
+    private final double DEFAULT_EXPOSITION=0.75;
+    private  double expos=DEFAULT_EXPOSITION;
 
     private int CameraID;
 
@@ -41,7 +43,9 @@ public class Camera implements ICamera{
     @Override
     public void Open() {
         camera=new VideoCapture(CameraID);
-        camera.set(CAP_PROP_AUTO_EXPOSURE, 0);
+         camera.set(CAP_PROP_AUTO_EXPOSURE,0);
+        camera.set(CAP_PROP_EXPOSURE,-3);
+
        // camera.set(CAP_PROP_FPS,fps);
     }
 
@@ -62,6 +66,7 @@ public class Camera implements ICamera{
     public void Grab() {
        VideoIm=Read();
     }
+
 
 
     @Override
@@ -121,7 +126,7 @@ public class Camera implements ICamera{
 
     static BufferedImage Mat2BufferedImage(Mat matrix)throws IOException {
         MatOfByte mob=new MatOfByte();
-        Imgcodecs.imencode(".jpg", matrix, mob);
+        Imgcodecs.imencode(".bmp", matrix, mob);
         byte ba[]=mob.toArray();
         BufferedImage bi= ImageIO.read(new ByteArrayInputStream(ba));
         return bi;

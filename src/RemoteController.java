@@ -83,7 +83,6 @@ public class RemoteController {
         switch (isMode){
             case isWhiteTop:{
                 event.SetMode(Mode.WhiteTop);
-
                 break;
             }
             case isWhiteOblique1:{
@@ -190,16 +189,14 @@ public class RemoteController {
          public void serialEvent(SerialPortEvent PortEvent) {
              if(PortEvent.isRXCHAR()&&PortEvent.getEventValue()>0){
                  try {
-
                      byte[]data=serialPort.readBytes();
                      int h=0;
                      for(byte i:data){
                          infoSaver.offer(i);
                      }
-                     System.out.println(infoSaver.size());
                      while(infoSaver.size()>=3){
                          byte[]packData=new byte[3];
-                         for (int i = 0; i < infoSaver.size(); ++i) {
+                         for (int i = 0; i < 3; ++i) {
                              packData[i] = infoSaver.poll();
                          }
                          listener.DeviceEvent(CreateDeviceEvent(packData[0],packData[1],packData[2]));

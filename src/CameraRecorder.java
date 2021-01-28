@@ -8,7 +8,6 @@ public class CameraRecorder {
     private ICamera superCamera;
     private ScheduledExecutorService schedule=null;
     private final int  defaultFPS=20;
-    private int FPS=defaultFPS;
     private boolean isOnPause=false;
     private boolean isOpen=false;
     private BufferedImage openIm=null;
@@ -56,7 +55,7 @@ public class CameraRecorder {
     public void Start() {
         schedule= Executors.newSingleThreadScheduledExecutor();
         if(!isOpen){
-        schedule.scheduleAtFixedRate(MainCycle,0,FPS, TimeUnit.MILLISECONDS);}
+        schedule.scheduleAtFixedRate(MainCycle,0,defaultFPS, TimeUnit.MILLISECONDS);}
         else{
             schedule.scheduleAtFixedRate(OpenCycle,0,defaultFPS, TimeUnit.MILLISECONDS);
             isOpen=false;
@@ -75,16 +74,9 @@ public class CameraRecorder {
 
     }
 
-    public void SetFPS(int fps){
-        FPS=fps;
-    }
-
-    public  int GetFPS(){
-        return FPS;
-    }
-
     public void Set(BufferedImage bi){
         isOpen=true;
         openIm=bi;
     }
+
 }

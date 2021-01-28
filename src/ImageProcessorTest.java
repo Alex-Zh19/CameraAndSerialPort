@@ -33,17 +33,36 @@ class TestFilter implements IImageEditor{
 
 public class ImageProcessorTest {
     TestFilter filter=new TestFilter(2);
-
+    BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
     @Test
     public void addFilter() {
 
     }
 
     @Test
+    public void applyFilters() {
+        BufferedImage expected=filter.Apply(image);
+        Assert.assertTrue(imageEqual(expected,image));
+    }
+
+    @Test
     public void applyEditors_no_null() {
-        BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-        ImageProcessor processor=new ImageProcessor();
-        BufferedImage expected=processor.ApplyFilters(image);
+        BufferedImage expected=filter.Apply(image);
         Assert.assertNotNull(expected);
     }
+
+    boolean imageEqual(BufferedImage im1,BufferedImage im2){
+        for(int i=0;i<im1.getWidth();++i){
+            for(int j=0;i<im1.getHeight();++j){
+                int im1Num=im1.getRGB(i,j);
+                int im2Num=im2.getRGB(i,j);
+                if(im1Num!=im2Num){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
 }

@@ -21,7 +21,7 @@ public class Camera implements ICamera{
 
     private Mat tmpFrame_=new Mat();
 
-    private BufferedImage VideoIm=null;
+    private BufferedImage VideoIm =null;
 
     private final double DEFAULT_EXPOSITION=0.75;
     private  double expos=DEFAULT_EXPOSITION;

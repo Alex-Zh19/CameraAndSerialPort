@@ -5,7 +5,9 @@ public class ImageProcessor {
      private ArrayList<IImageEditor>filters=new ArrayList<>();
 
      public void AddFilter(IImageEditor editor){
+          if(editor!=null){
           filters.add(editor);
+          }
      }
 
      public BufferedImage ApplyFilters(BufferedImage original){

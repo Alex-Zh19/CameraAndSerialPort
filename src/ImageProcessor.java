@@ -6,7 +6,7 @@ public class ImageProcessor {
 
      public void AddFilter(IImageEditor editor){
           if(editor!=null){
-          filters.add(editor);
+               filters.add(editor);
           }
      }
 

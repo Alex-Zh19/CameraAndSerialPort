@@ -41,14 +41,14 @@ public class ImageProcessorTest {
     @Test
     public void addFilter() {
         TestFilter filter=new TestFilter(2);
-        ArrayList<IImageEditor> expectedfiltersTestList=new ArrayList<>();
+        ArrayList<IImageEditor> expectedFiltersTestList=new ArrayList<>();
         TestFilter filterToFailTest=new TestFilter(3);
-        expectedfiltersTestList.add(filter);
+        expectedFiltersTestList.add(filter);
 
         ImageProcessor testProcessor=new ImageProcessor();
         testProcessor.AddFilter(filter);
 
-        Assert.assertEquals(expectedfiltersTestList,testProcessor.GetFilters());
+        Assert.assertEquals(expectedFiltersTestList,testProcessor.GetFilters());
     }
 
     @Test

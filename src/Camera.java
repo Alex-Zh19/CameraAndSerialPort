@@ -16,7 +16,7 @@ import static org.opencv.videoio.Videoio.*;
 
 
 public class Camera implements ICamera{
-   private  final int DefaultWidth=960;
+    private  final int DefaultWidth=960;
     private  final int DefaultHeight=576;
 
     private Mat tmpFrame_=new Mat();
@@ -42,24 +42,24 @@ public class Camera implements ICamera{
 
     @Override
     public void Open() {
-        camera=new VideoCapture(CameraID);
+         camera=new VideoCapture(CameraID);
          camera.set(CAP_PROP_AUTO_EXPOSURE,0);
-        camera.set(CAP_PROP_EXPOSURE,-3);
+         camera.set(CAP_PROP_EXPOSURE,-3);
 
-       // camera.set(CAP_PROP_FPS,fps);
+        // camera.set(CAP_PROP_FPS,fps);
     }
 
     @Override
     public BufferedImage Read() {
-        BufferedImage VideoImage=null;
-       if(camera.isOpened()) {
-           camera.read(tmpFrame_);
-           try{
-           VideoImage = Mat2BufferedImage(tmpFrame_);}catch (IOException ex){
-               System.out.println("Camera read error");
-           }
-       }
-       return VideoImage;
+         BufferedImage VideoImage=null;
+         if(camera.isOpened()) {
+             camera.read(tmpFrame_);
+             try{
+                 VideoImage = Mat2BufferedImage(tmpFrame_);}catch (IOException ex){
+                 System.out.println("Camera read error");
+             }
+         }
+         return VideoImage;
     }
 
     @Override
@@ -81,63 +81,63 @@ public class Camera implements ICamera{
 
     @Override
     public int GetXResolution() {
-        int Width=(int)Math.round(camera.get(CAP_PROP_FRAME_WIDTH));
-        return Width;
+          int Width=(int)Math.round(camera.get(CAP_PROP_FRAME_WIDTH));
+          return Width;
     }
 
     @Override
     public int GetYResolution() {
-        int Height=(int)Math.round(camera.get(CAP_PROP_FRAME_HEIGHT));
-        return Height;
+          int Height=(int)Math.round(camera.get(CAP_PROP_FRAME_HEIGHT));
+          return Height;
     }
 
     @Override
     public void SetResolution(int Width,int Height) {
-        if(Width==0&&Height==0){
-            Width=DefaultWidth;
-            Height=DefaultHeight;
-        }
-       camera.set(CAP_PROP_FRAME_WIDTH,Width);
-        camera.set(CAP_PROP_FRAME_HEIGHT,Height);
+          if(Width==0&&Height==0){
+              Width=DefaultWidth;
+              Height=DefaultHeight;
+          }
+          camera.set(CAP_PROP_FRAME_WIDTH,Width);
+          camera.set(CAP_PROP_FRAME_HEIGHT,Height);
     }
 
 
     @Override
     public void Close() {
-        camera.release();
-        tmpFrame_.release();
+          camera.release();
+          tmpFrame_.release();
     }
 
 
 
     public static ArrayList<Integer> CountUSB_And_AnalyzedCameraID() {
-        ArrayList<Integer>listOfCameras=new ArrayList<>();
-        int MaxCount = 10;
-        for (int i = 0; i < MaxCount; ++i) {
-            VideoCapture buffCam = new VideoCapture(i);
-            if (buffCam.isOpened()) {
-                listOfCameras.add(i);
-                buffCam.release();
-            }
-        }
-        return listOfCameras;
+          ArrayList<Integer>listOfCameras=new ArrayList<>();
+          int MaxCount = 10;
+          for (int i = 0; i < MaxCount; ++i) {
+              VideoCapture buffCam = new VideoCapture(i);
+              if (buffCam.isOpened()) {
+                  listOfCameras.add(i);
+                  buffCam.release();
+              }
+          }
+          return listOfCameras;
     }
 
 
     static BufferedImage Mat2BufferedImage(Mat matrix)throws IOException {
-        MatOfByte mob=new MatOfByte();
-        Imgcodecs.imencode(".bmp", matrix, mob);
-        byte ba[]=mob.toArray();
-        BufferedImage bi= ImageIO.read(new ByteArrayInputStream(ba));
-        return bi;
+          MatOfByte mob=new MatOfByte();
+          Imgcodecs.imencode(".bmp", matrix, mob);
+          byte ba[]=mob.toArray();
+          BufferedImage bi= ImageIO.read(new ByteArrayInputStream(ba));
+          return bi;
     }
    // @Override
-public void SetFPS(double value){
+   public void SetFPS(double value){
         camera.set(CAP_PROP_FPS,value);
 }
 
    // @Override
-    public double GetFPS() {
+   public double GetFPS() {
         return camera.get(CAP_PROP_FPS);
     }
 }

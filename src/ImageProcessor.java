@@ -31,4 +31,5 @@ public class ImageProcessor implements Iterable{
      public Iterator iterator() {
           return filters.iterator();
      }
+
 }

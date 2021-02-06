@@ -4,6 +4,7 @@ import org.junit.Test;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static org.junit.Assert.*;
 
@@ -48,12 +49,7 @@ public class ImageProcessorTest {
         ImageProcessor testProcessor=new ImageProcessor();
         testProcessor.AddFilter(filter);
 
-        for(int i=0;i<expectedFiltersTestList.size();++i){
-            if(testProcessor.GetFilters(i)!=null){
-                Assert.assertEquals(testProcessor.GetFilters(i),expectedFiltersTestList.get(i));
-            }
-        }
-
+        Assert.assertTrue(CompareLists(testProcessor,expectedFiltersTestList));
     }
 
     @Test
@@ -65,7 +61,7 @@ public class ImageProcessorTest {
         Assert.assertTrue(imageEqual(image, testProcessor.ApplyFilters(image)));
 
         BufferedImage expected=filter.Apply(image);
-        Assert.assertFalse(imageEqual(expected,image));
+        Assert.assertTrue(imageEqual(expected,image));
     }
 
     @Test
@@ -89,4 +85,13 @@ public class ImageProcessorTest {
         return true;
     }
 
+    boolean CompareLists(ImageProcessor processor,ArrayList<IImageEditor> list){
+        Iterator<IImageEditor> iter=list.iterator();
+      while(processor.iterator().hasNext()&& iter.hasNext()){
+          if(processor.iterator().next()!=iter.next()){
+              return false;
+          }
+      }
+        return true;
+    }
 }

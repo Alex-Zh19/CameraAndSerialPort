@@ -41,15 +41,13 @@ public class ImageProcessorTest {
 
     @Test
     public void addFilter() {
-        TestFilter filter=new TestFilter(2);
-        ArrayList<IImageEditor> expectedFiltersTestList=new ArrayList<>();
-        TestFilter filterToFailTest=new TestFilter(3);
-        expectedFiltersTestList.add(filter);
-
         ImageProcessor testProcessor=new ImageProcessor();
+        Assert.assertFalse(testProcessor.iterator().hasNext());
+
+        TestFilter filter=new TestFilter(2);
         testProcessor.AddFilter(filter);
 
-        Assert.assertTrue(CompareLists(testProcessor,expectedFiltersTestList));
+        Assert.assertTrue(testProcessor.iterator().hasNext());
     }
 
     @Test
@@ -82,16 +80,6 @@ public class ImageProcessorTest {
                 }
             }
         }
-        return true;
-    }
-
-    boolean CompareLists(ImageProcessor processor,ArrayList<IImageEditor> list){
-        Iterator<IImageEditor> iter=list.iterator();
-      while(processor.iterator().hasNext()&& iter.hasNext()){
-          if(processor.iterator().next()!=iter.next()){
-              return false;
-          }
-      }
         return true;
     }
 }

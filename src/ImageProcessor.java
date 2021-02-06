@@ -29,6 +29,6 @@ public class ImageProcessor implements Iterable{
 
      @Override
      public Iterator iterator() {
-          return null;
+          return filters.iterator();
      }
 }

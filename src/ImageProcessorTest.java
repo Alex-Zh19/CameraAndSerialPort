@@ -48,6 +48,17 @@ public class ImageProcessorTest {
         testProcessor.AddFilter(filter);
 
         Assert.assertTrue(testProcessor.iterator().hasNext());
+
+        ArrayList<IImageEditor>expectedList=new ArrayList<>();
+        expectedList.add(filter);
+
+        Assert.assertTrue(CompareHashOfListsObjects(testProcessor,expectedList));
+
+        TestFilter filterToFailTheTest=new TestFilter(3);
+        expectedList.clear();
+        expectedList.add(filterToFailTheTest);
+
+        Assert.assertFalse(CompareHashOfListsObjects(testProcessor,expectedList));
     }
 
     @Test
@@ -78,6 +89,16 @@ public class ImageProcessorTest {
                 if(im1Num!=im2Num){
                     return false;
                 }
+            }
+        }
+        return true;
+    }
+
+    boolean CompareHashOfListsObjects(ImageProcessor p,ArrayList<IImageEditor>list){
+       Iterator<IImageEditor>iter=list.iterator();
+        while (p.iterator().hasNext()&&iter.hasNext()){
+            if(p.iterator().next().hashCode()!=iter.next().hashCode()){
+                return false;
             }
         }
         return true;

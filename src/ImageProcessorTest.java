@@ -48,7 +48,12 @@ public class ImageProcessorTest {
         ImageProcessor testProcessor=new ImageProcessor();
         testProcessor.AddFilter(filter);
 
-        Assert.assertEquals(expectedFiltersTestList,testProcessor.GetFilters());
+        for(int i=0;i<expectedFiltersTestList.size();++i){
+            if(testProcessor.GetFilters(i)!=null){
+                Assert.assertEquals(testProcessor.GetFilters(i),expectedFiltersTestList.get(i));
+            }
+        }
+
     }
 
     @Test
@@ -83,6 +88,5 @@ public class ImageProcessorTest {
         }
         return true;
     }
-
 
 }

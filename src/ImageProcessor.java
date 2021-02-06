@@ -1,5 +1,7 @@
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ImageProcessor {
      private ArrayList<IImageEditor>filters=new ArrayList<>();
@@ -17,7 +19,11 @@ public class ImageProcessor {
           return original;
      }
 
-     public ArrayList<IImageEditor> GetFilters(){
-          return filters;
+     public IImageEditor GetFilters(int index){
+          try{
+               return filters.get(index);
+          }catch(IndexOutOfBoundsException e){
+               return null;
+          }
      }
 }

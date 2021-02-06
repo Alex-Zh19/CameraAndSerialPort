@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ImageProcessor {
+public class ImageProcessor implements Iterable{
      private ArrayList<IImageEditor>filters=new ArrayList<>();
 
      public void AddFilter(IImageEditor editor){
@@ -25,5 +25,10 @@ public class ImageProcessor {
           }catch(IndexOutOfBoundsException e){
                return null;
           }
+     }
+
+     @Override
+     public Iterator iterator() {
+          return null;
      }
 }

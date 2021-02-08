@@ -11,14 +11,20 @@ public class EditHSLTest {
     @Test
     public void apply() {
         EditHSL filter=new EditHSL();
+
+        BufferedImage image2=new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+
         BufferedImage image=CreateNotNullImage();
+
         filter.SetBrightnessFactor(1.5f);
         filter.SetSaturationFactor(1.5f);
         filter.SetContrastFactor(1.5f);
 
-        BufferedImage dstImage=filter.Apply(image);
+        BufferedImage dst2Image=filter.Apply(image2);
+        Assert.assertTrue(imageEqual(image2,dst2Image));
 
-        Assert.assertFalse(imageEqual(image,dstImage));
+        BufferedImage dst1Image=filter.Apply(image);
+        Assert.assertFalse(imageEqual(image,dst1Image));
     }
     boolean imageEqual(BufferedImage im1,BufferedImage im2){
         for(int i=0;i<im1.getWidth();++i){

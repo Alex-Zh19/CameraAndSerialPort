@@ -9,12 +9,10 @@ import static org.junit.Assert.*;
 public class EditHSLTest {
 
     @Test
-    public void apply() {
+    public void apply_null_image() {
         EditHSL filter=new EditHSL();
 
         BufferedImage image2=new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-
-        BufferedImage image=CreateNotNullImage();
 
         filter.SetBrightnessFactor(1.5f);
         filter.SetSaturationFactor(1.5f);
@@ -23,9 +21,22 @@ public class EditHSLTest {
         BufferedImage dst2Image=filter.Apply(image2);
         Assert.assertTrue(imageEqual(image2,dst2Image));
 
+    }
+    @Test
+    public void apply_not_null_image() {
+        EditHSL filter=new EditHSL();
+
+        BufferedImage image=CreateNotNullImage();
+
+        filter.SetBrightnessFactor(1.5f);
+        filter.SetSaturationFactor(1.5f);
+        filter.SetContrastFactor(1.5f);
+
+
         BufferedImage dst1Image=filter.Apply(image);
         Assert.assertFalse(imageEqual(image,dst1Image));
     }
+
     boolean imageEqual(BufferedImage im1,BufferedImage im2){
         for(int i=0;i<im1.getWidth();++i){
             for(int j=0;j<im1.getHeight();++j){
@@ -41,8 +52,8 @@ public class EditHSLTest {
 
     BufferedImage CreateNotNullImage(){
         BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-        for (int i=0;i<image.getWidth()/3;i++){
-            for(int j=0;j<image.getHeight()/3;j++){
+        for (int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
                 image.setRGB(i,j,1);
             }
         }

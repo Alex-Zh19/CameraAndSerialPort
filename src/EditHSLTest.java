@@ -34,6 +34,7 @@ public class EditHSLTest {
 
 
         BufferedImage dst1Image=filter.Apply(image);
+
         Assert.assertFalse(imageEqual(image,dst1Image));
     }
 
@@ -52,14 +53,37 @@ public class EditHSLTest {
 
     BufferedImage CreateNotNullImage(){
         BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+        double []rgb={1,2,3};
         for (int i=0;i< image.getWidth();i++){
             for(int j=0;j< image.getHeight();j++){
                if(i==j){
-                image.setRGB(i,j,1);
+                image.setRGB(i,j,rgb2Hsl(rgb));
                }
             }
         }
 
         return image;
+    }
+    private int rgb2Hsl(double[] rgb){
+        double max = Math.max(Math.max(rgb[0], rgb[1]), rgb[2]); // 0xdd = 221
+        double delta = max - Math.min(Math.min(rgb[0], rgb[1]), rgb[2]); // 153
+        double h = 0;
+        int s = 0;
+        int l = (int) Math.round(max * 100d / 255d); // 87 ok
+        if (max != 0) {
+            s = (int) Math.round(delta * 100d / max); // 69 ok
+            if (max == rgb[0]) {
+                h = (rgb[1] - rgb[2]) / delta;
+            } else if (max == rgb[1]) {
+                h = (rgb[2] - rgb[0]) / delta + 2d;
+            } else {
+                h = (rgb[0] - rgb[1]) / delta + 4d; // 4.8888888888
+            }
+            h = Math.min(Math.round(h * 60d), 360d); // 293
+            if (h < 0d) {
+                h += 360d;
+            }
+        }
+        return (int)Math.round(h+s+l);
     }
 }

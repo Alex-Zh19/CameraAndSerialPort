@@ -9,8 +9,13 @@ public class EditHSLTest {
 
     @Test
     public void apply() {
-        IImageEditor filter=new EditHSL();
+        EditHSL filter=new EditHSL();
         BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+
+        filter.SetBrightnessFactor(1.5f);
+        filter.SetSaturationFactor(1.5f);
+        filter.SetContrastFactor(1.5f);
+        
         BufferedImage dstImage=filter.Apply(image);
 
         Assert.assertFalse(imageEqual(image,dstImage));

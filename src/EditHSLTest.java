@@ -52,9 +52,11 @@ public class EditHSLTest {
 
     BufferedImage CreateNotNullImage(){
         BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-        for (int i=0;i<5;i++){
-            for(int j=0;j<5;j++){
+        for (int i=0;i< image.getWidth();i++){
+            for(int j=0;j< image.getHeight();j++){
+               if(i==j){
                 image.setRGB(i,j,1);
+               }
             }
         }
 

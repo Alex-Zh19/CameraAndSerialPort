@@ -2,6 +2,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.awt.image.BufferedImage;
+import java.nio.BufferUnderflowException;
 
 import static org.junit.Assert.*;
 
@@ -10,12 +11,11 @@ public class EditHSLTest {
     @Test
     public void apply() {
         EditHSL filter=new EditHSL();
-        BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
-
+        BufferedImage image=CreateNotNullImage();
         filter.SetBrightnessFactor(1.5f);
         filter.SetSaturationFactor(1.5f);
         filter.SetContrastFactor(1.5f);
-        
+
         BufferedImage dstImage=filter.Apply(image);
 
         Assert.assertFalse(imageEqual(image,dstImage));
@@ -31,5 +31,16 @@ public class EditHSLTest {
             }
         }
         return true;
+    }
+
+    BufferedImage CreateNotNullImage(){
+        BufferedImage image = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB);
+        for (int i=0;i<image.getWidth()/3;i++){
+            for(int j=0;j<image.getHeight()/3;j++){
+                image.setRGB(i,j,1);
+            }
+        }
+
+        return image;
     }
 }
